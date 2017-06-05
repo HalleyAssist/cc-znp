@@ -15,7 +15,19 @@
         "SAPI": 6,
         "UTIL": 7,
         "DBG": 8,
-        "APP": 9
+        "APP": 9,
+		"OTA" 10,
+		"ZNP": 11,
+		"SPARE": 12,
+		"UBL": 13,
+		"RES14": 14,
+		"APP_CNF": 15,
+		"RES16": 16,
+		"PROTOBUF": 17,
+		"RES18": 18,
+		"RES18": 19,
+		"RES18": 20,
+		"GP": 21	
     },
     "ParamType": {
         "uint8": 0,
@@ -285,5 +297,12 @@
         "msg": 0,
         "userTest": 1,
         "zllTlInd": 129
-    }
+    },
+    "GP": {
+        "dataReq": 1,
+        "secRsp": 2,
+        "seqReq": 3,
+        "dataInd": 4,
+        "dataCnf": 5
+	}
 }
