@@ -10,6 +10,20 @@
                     }
                 ]
             }
+        },
+        "queued": {
+            "type": 1,
+            "cmdId": 139,
+            "params": {
+                "req": [
+                    {
+                        "nwkaddr": 1
+                    }
+                ],
+                "rsp": [
+                    { "status": 0 }
+                ]
+            }
         }
     },
     "SYS": {
@@ -808,296 +822,6 @@
         }
     },
     "MAC": {
-        "resetReq": {
-            "type": 1,
-            "cmdId": 1,
-            "params": {
-                "req": [
-                    {
-                        "setdefault": 0
-                    }
-                ],
-                "rsp": [
-                    {
-                        "status": 0
-                    }
-                ]
-            }
-        },
-        "init": {
-            "type": 1,
-            "cmdId": 2,
-            "params": {
-                "req": [],
-                "rsp": [
-                    {
-                        "status": 0
-                    }
-                ]
-            }
-        },
-        "startReq": {
-            "type": 1,
-            "cmdId": 3,
-            "params": {
-                "req": [
-                    {
-                        "starttime": 2
-                    },
-                    {
-                        "panid": 1
-                    },
-                    {
-                        "logicalchannel": 0
-                    },
-                    {
-                        "channelpage": 0
-                    },
-                    {
-                        "beaconorder": 0
-                    },
-                    {
-                        "superframeorder": 0
-                    },
-                    {
-                        "pancoordinator": 0
-                    },
-                    {
-                        "batterylifeext": 0
-                    },
-                    {
-                        "coordrealignment": 0
-                    },
-                    {
-                        "realignkeysource": 13
-                    },
-                    {
-                        "realignsecuritylevel": 0
-                    },
-                    {
-                        "realignkeyidmode": 0
-                    },
-                    {
-                        "realignkeyindex": 0
-                    },
-                    {
-                        "beaconkeysource": 13
-                    },
-                    {
-                        "beaconsecuritylevel": 0
-                    },
-                    {
-                        "beaconkeyidmode": 0
-                    },
-                    {
-                        "beaconkeyindex": 0
-                    }
-                ],
-                "rsp": [
-                    {
-                        "status": 0
-                    }
-                ]
-            }
-        },
-        "syncReq": {
-            "type": 1,
-            "cmdId": 4,
-            "params": {
-                "req": [
-                    {
-                        "logicalchannel": 0
-                    },
-                    {
-                        "channelpage": 0
-                    },
-                    {
-                        "trackbeacon": 0
-                    }
-                ],
-                "rsp": [
-                    {
-                        "status": 0
-                    }
-                ]
-            }
-        },
-        "dataReq": {
-            "type": 1,
-            "cmdId": 5,
-            "params": {
-                "req": [
-                    {
-                        "destaddressmode": 0
-                    },
-                    {
-                        "destaddress": 3
-                    },
-                    {
-                        "destpanid": 1
-                    },
-                    {
-                        "srcaddressmode": 0
-                    },
-                    {
-                        "handle": 0
-                    },
-                    {
-                        "txoption": 0
-                    },
-                    {
-                        "logicalchannel": 0
-                    },
-                    {
-                        "power": 0
-                    },
-                    {
-                        "keysource": 13
-                    },
-                    {
-                        "securitylevel": 0
-                    },
-                    {
-                        "keyidmode": 0
-                    },
-                    {
-                        "keyindex": 0
-                    },
-                    {
-                        "msdulength": 0
-                    },
-                    {
-                        "msdu": 11
-                    }
-                ],
-                "rsp": [
-                    {
-                        "status": 0
-                    }
-                ]
-            }
-        },
-        "associateReq": {
-            "type": 1,
-            "cmdId": 6,
-            "params": {
-                "req": [
-                    {
-                        "logicalchannel": 0
-                    },
-                    {
-                        "channelpage": 0
-                    },
-                    {
-                        "coordaddressmode": 0
-                    },
-                    {
-                        "coordaddress": 3
-                    },
-                    {
-                        "coordpanid": 1
-                    },
-                    {
-                        "capabilityinformation": 0
-                    },
-                    {
-                        "keysource": 13
-                    },
-                    {
-                        "securitylevel": 0
-                    },
-                    {
-                        "keyidmode": 0
-                    },
-                    {
-                        "keyindex": 0
-                    }
-                ],
-                "rsp": [
-                    {
-                        "status": 0
-                    }
-                ]
-            }
-        },
-        "disassociateReq": {
-            "type": 1,
-            "cmdId": 7,
-            "params": {
-                "req": [
-                    {
-                        "deviceaddressmode": 0
-                    },
-                    {
-                        "deviceaddress": 3
-                    },
-                    {
-                        "devicepanid": 1
-                    },
-                    {
-                        "disassociatereason": 0
-                    },
-                    {
-                        "txindirect": 0
-                    },
-                    {
-                        "keysource": 13
-                    },
-                    {
-                        "securitylevel": 0
-                    },
-                    {
-                        "keyidmode": 0
-                    },
-                    {
-                        "keyindex": 0
-                    }
-                ],
-                "rsp": [
-                    {
-                        "status": 0
-                    }
-                ]
-            }
-        },
-        "getReq": {
-            "type": 1,
-            "cmdId": 8,
-            "params": {
-                "req": [
-                    {
-                        "attribute": 0
-                    }
-                ],
-                "rsp": [
-                    {
-                        "status": 0
-                    },
-                    {
-                        "data": 15
-                    }
-                ]
-            }
-        },
-        "setReq": {
-            "type": 1,
-            "cmdId": 9,
-            "params": {
-                "req": [
-                    {
-                        "attribute": 0
-                    },
-                    {
-                        "attributevalue": 13
-                    }
-                ],
-                "rsp": [
-                    {
-                        "status": 0
-                    }
-                ]
-            }
-        },
         "scanReq": {
             "type": 1,
             "cmdId": 12,
@@ -1138,113 +862,28 @@
                 ]
             }
         },
-        "pollReq": {
+
+        "getCca": {
             "type": 1,
-            "cmdId": 13,
+            "cmdId": 139,
             "params": {
-                "req": [
-                    {
-                        "coordaddressmode": 0
-                    },
-                    {
-                        "coordaddress": 3
-                    },
-                    {
-                        "coordpanid": 1
-                    },
-                    {
-                        "keysource": 13
-                    },
-                    {
-                        "securitylevel": 0
-                    },
-                    {
-                        "keyidmode": 0
-                    },
-                    {
-                        "keyindex": 0
-                    }
-                ],
+                "req": [],
                 "rsp": [
-                    {
-                        "status": 0
-                    }
+                    { "cca": 0 }
                 ]
             }
         },
-        "purgeReq": {
+        "setCca": {
             "type": 1,
-            "cmdId": 14,
+            "cmdId": 139,
             "params": {
-                "req": [
-                    {
-                        "msduhandle": 0
-                    }
-                ],
+                "req": [{ "cca": 0 }],
                 "rsp": [
-                    {
-                        "status": 0
-                    }
+                    { "status": 0 }
                 ]
             }
         },
-        "setRxGainReq": {
-            "type": 1,
-            "cmdId": 15,
-            "params": {
-                "req": [
-                    {
-                        "mode": 0
-                    }
-                ],
-                "rsp": [
-                    {
-                        "status": 0
-                    }
-                ]
-            }
-        },
-        "securityGetReq": {
-            "type": 1,
-            "cmdId": 48,
-            "params": {
-                "req": [
-                    {
-                        "attribute": 0
-                    },
-                    {
-                        "index1": 0
-                    },
-                    {
-                        "index2": 0
-                    }
-                ],
-                "rsp": [
-                    {
-                        "status": 0
-                    }
-                ]
-            }
-        },
-        "securitySetReq": {
-            "type": 1,
-            "cmdId": 49,
-            "params": {
-                "req": [
-                    {
-                        "attribute": 0
-                    },
-                    {
-                        "attributevalue": 13
-                    }
-                ],
-                "rsp": [
-                    {
-                        "status": 0
-                    }
-                ]
-            }
-        },
+        
         "associateRsp": {
             "type": 1,
             "cmdId": 80,
