@@ -86,21 +86,9 @@
         "jammerInd": 130
     },
     "MAC": {
-        "resetReq": 1,
-        "init": 2,
-        "startReq": 3,
-        "syncReq": 4,
-        "dataReq": 5,
-        "associateReq": 6,
-        "disassociateReq": 7,
-        "getReq": 8,
-        "setReq": 9,
-        "scanReq": 12,
-        "pollReq": 13,
-        "purgeReq": 14,
-        "setRxGainReq": 15,
-        "securityGetReq": 48,
-        "securitySetReq": 49,
+        "getCca": 1,
+        "setCca": 2,
+        "scanReq": 12,  
         "associateRsp": 80,
         "orphanRsp": 81,
         "syncLossInd": 128,
@@ -280,7 +268,8 @@
         "bindAddEntry": 77
     },
     "NWK": {
-        "pollInd": 139
+        "pollInd": 139,
+        "queued": 14
     },
     "DBG": {
         "setThreshold": 0,
