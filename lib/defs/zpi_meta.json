@@ -1,4 +1,23 @@
 {
+    "RES0": {
+        "error": {
+            "type": 2,
+            "cmdId": 0,
+            "params": {
+                "req": [
+                    {
+                        "status": 0
+                    },
+                    {
+                        "subsys": 0
+                    },
+                    {
+                        "cmd": 0
+                    }
+                ]
+            }
+        }
+    },
     "NWK": {
         "pollInd": {
             "type": 2,

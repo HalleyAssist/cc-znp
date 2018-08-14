@@ -42,6 +42,9 @@
         "uint8ZdoInd": 20,
         "uint32be":21
     },
+    "RES0": {
+        "error": 0
+    },
     "SYS": {
         "resetReq": 0,
         "ping": 1,
