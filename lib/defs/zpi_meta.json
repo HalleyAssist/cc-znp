@@ -4,12 +4,12 @@
             "type": 2,
             "cmdId": 0,
             "params": {
-                "req": [
+                "rsp": [
                     {
                         "status": 0
                     },
                     {
-                        "subsys": 0
+                        "typesubsys": 0
                     },
                     {
                         "cmd": 0
