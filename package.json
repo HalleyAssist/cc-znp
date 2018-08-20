@@ -34,10 +34,10 @@
   },
   "homepage": "https://github.com/zigbeer/cc-znp#readme",
   "dependencies": {
-    "debug": "^2.2.0",
-    "enum": "^2.3.0",
+    "debug": "^2.x",
+    "enum": "^2.x",
     "serialport": "^6.x",
-    "unpi": "^1.1.0"
+    "unpi": "^1.x"
   },
   "devDependencies": {
     "chai": "^3.5.0",
