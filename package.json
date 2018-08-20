@@ -37,7 +37,6 @@
     "debug": "^2.2.0",
     "enum": "^2.3.0",
     "serialport": "^6.x",
-    "stream-browserify": "^2.0.1",
     "unpi": "^1.1.0"
   },
   "devDependencies": {
