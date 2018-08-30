@@ -37,7 +37,8 @@
                 "req": [
                     {
                         "nwkaddr": 1
-                    }
+                    },
+                    { "type": 0 }
                 ],
                 "rsp": [
                     { "count": 0 }
