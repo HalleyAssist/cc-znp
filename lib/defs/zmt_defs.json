@@ -136,6 +136,7 @@
         "matchDescReq": 6,
         "complexDescReq": 7,
         "userDescReq": 8,
+        "networkStatus": 9,
         "endDeviceAnnce": 10,
         "userDescSet": 11,
         "serverDiscReq": 12,

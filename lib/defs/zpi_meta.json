@@ -1999,6 +1999,25 @@
                 ]
             }
         },
+        "networkStatus": {
+            "type": 1,
+            "cmdId": 9,
+            "params": {
+                "req": [
+                    {
+                        "dstaddr": 1
+                    },
+                    {
+                        "code": 0
+                    }
+                ],
+                "rsp": [
+                    {
+                        "status": 0
+                    }
+                ]
+            }
+        },
         "endDeviceAnnce": {
             "type": 1,
             "cmdId": 10,
