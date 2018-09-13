@@ -36,8 +36,8 @@
   "dependencies": {
     "debug": "^2.x",
     "enum": "^2.x",
-    "@serialport/stream": "^7.x",
-    "@serialport/bindings": "^7.x",
+    "@serialport/stream": "^2.x",
+    "@serialport/bindings": "^2.x",
     "unpi": "^1.x"
   },
   "devDependencies": {
