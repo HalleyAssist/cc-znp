@@ -885,7 +885,7 @@
 
         "getCca": {
             "type": 1,
-            "cmdId": 139,
+            "cmdId": 1,
             "params": {
                 "req": [],
                 "rsp": [
@@ -895,7 +895,7 @@
         },
         "setCca": {
             "type": 1,
-            "cmdId": 139,
+            "cmdId": 2,
             "params": {
                 "req": [{ "cca": 0 }],
                 "rsp": [
