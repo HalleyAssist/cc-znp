@@ -25,7 +25,7 @@ describe('#.frame', function () {
 
         if (Subsys === 'RES0' || Subsys === 'NWK') return;
 
-        zmeta[Subsys].enums.forEach(function (zpiObject) {
+        zmeta.Commands[Subsys].enums.forEach(function (zpiObject) {
             var cmd = zpiObject.key,
                 argObj,
                 reqParams,
