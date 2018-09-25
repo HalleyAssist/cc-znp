@@ -63,7 +63,7 @@ describe('#.parse', function () {
 
         if (subsys === 'RES0' || subsys === 'NWK') return;
 
-        zmeta[subsys].enums.forEach(function (zpiObject) {
+        zmeta.Commands[subsys].enums.forEach(function (zpiObject) {
             var cmd = zpiObject.key,
                 argObj,
                 rspParams,
