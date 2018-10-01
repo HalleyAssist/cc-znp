@@ -38,9 +38,17 @@
                     {
                         "nwkaddr": 1
                     },
-                    { "type": 0 }
+                    { 
+                        "type": 0
+                    }
                 ],
                 "rsp": [
+                    {
+                        "nwkaddr": 1
+                    },
+                    { 
+                        "type": 0
+                    },
                     { "count": 0 }
                 ]
             }
