@@ -36,8 +36,8 @@
   "dependencies": {
     "debug": "^2.x",
     "light-enum": "git+https://github.com/splitice/light-enum.git",
-    "@serialport/stream": "^2.x",
-    "@serialport/bindings": "^2.x",
+    "@serialport/stream": "^3.x",
+    "@serialport/bindings": "^3.x",
     "unpi": "^1.x"
   },
   "devDependencies": {
