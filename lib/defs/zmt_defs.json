@@ -16,6 +16,7 @@
         "UTIL": 7,
         "DBG": 8,
         "APP": 9,
+        "ZNP": 11,
         "APP_CFG": 15
     },
     "ParamType": {
