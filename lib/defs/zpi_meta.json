@@ -2063,7 +2063,7 @@
 			"cmdId": 69,
 			"params": {
 				"req": [
-					["dstAddr", 1],
+					["dstaddr", 1],
 					["options", 0],
 					["radius", 0]
 				],
