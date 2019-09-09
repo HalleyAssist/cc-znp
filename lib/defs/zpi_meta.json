@@ -37,6 +37,18 @@
 					["count", 0]
 				]
 			}
+		},
+		"clear": {
+			"type": 1,
+			"cmdId": 15,
+			"params": {
+				"req": [
+					["nwkaddr", 1],
+				],
+				"rsp": [
+					["status", 0]
+				]
+			}
 		}
 	},
 	"SYS": {
