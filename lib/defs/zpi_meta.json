@@ -43,7 +43,7 @@
 			"cmdId": 15,
 			"params": {
 				"req": [
-					["nwkaddr", 1],
+					["nwkaddr", 1]
 				],
 				"rsp": [
 					["status", 0]
