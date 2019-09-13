@@ -49,6 +49,22 @@
 					["status", 0]
 				]
 			}
+		},
+		"rtg": {
+			"type": 1,
+			"cmdId": 16,
+			"params": {
+				"req": [
+					["nwkaddr", 1]
+				],
+				"rsp": [
+					["nwkaddr", 1],
+					["nextHop", 1],
+					["expiryTime", 0],
+					["rtstatus", 0],
+					["options", 0]
+				]
+			}
 		}
 	},
 	"SYS": {
