@@ -1877,6 +1877,18 @@
 				]
 			}
 		},
+			"cmdId": 182,
+			"params": {
+				"req": [
+					["status", 0],
+					["scannedChannels", 2],
+					["totalTransmissions", 1],
+					["transmissionFailures", 2],
+					["energylistcount", 0],
+					["energylist", 6]
+				]
+			}
+		},
 		"stateChangeInd": {
 			"type": 2,
 			"cmdId": 192,
