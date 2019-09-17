@@ -1877,7 +1877,8 @@
 				]
 			}
 		},
-			"cmdId": 182,
+		"nwkUpdateRsp": {
+			"cmdId": 184,
 			"params": {
 				"req": [
 					["status", 0],
