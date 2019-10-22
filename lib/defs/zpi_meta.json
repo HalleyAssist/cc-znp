@@ -1878,6 +1878,7 @@
 			}
 		},
 		"nwkUpdateRsp": {
+			"type": 2,
 			"cmdId": 184,
 			"params": {
 				"req": [
