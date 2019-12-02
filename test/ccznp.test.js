@@ -1,26 +1,24 @@
 var expect = require('chai').expect,
-    CCZnp = require('../index');
+    CCZnp = require('../index'),
+    SerialPort = require('@serialport/stream'),
+    MockBinding = require('@serialport/binding-mock'),
+    Q = require('q')
 
-var ccznp = new CCZnp();
+SerialPort.Binding = MockBinding
+
+var ccznp
 
 describe('Signature Check', function () {
-    it('ccznp.init(spCfg[, callback])', function () {
-        expect(function () { ccznp.init({ path: 'xxx' }); }).to.not.throw();
-
-        ccznp._sp = null;
-        expect(function () { ccznp.init({}); }).to.throw();
-        ccznp._sp = null;
-        expect(function () { ccznp.init([]); }).to.throw();
-        ccznp._sp = null;
-        expect(function () { ccznp.init('xxx'); }).to.throw();
-        ccznp._sp = null;
-        expect(function () { ccznp.init(123); }).to.throw();
-        ccznp._sp = null;
-        expect(function () { ccznp.init(false); }).to.throw();
-        ccznp._sp = null;
-        expect(function () { ccznp.init(undefined); }).to.throw();
-        ccznp._sp = null;
-        expect(function () { ccznp.init(null); }).to.throw();
+    before('ccznp.init(spCfg[, callback])', async function () {
+        const p = MockBinding.createPort('/dev/ROBOT', { echo: true, record: true  })
+        const port = new SerialPort('/dev/ROBOT')
+        //await Q.ninvoke(port, 'open')
+        await Q.delay(10)
+        while(port.opening){
+            await Q.delay(10)
+        }
+        ccznp = new CCZnp(port);
+        await ccznp.start()
     });
 
     it('ccznp.request(subsys, cmdId, valObj, callback)', function () {
@@ -84,22 +82,6 @@ describe('Signature Check', function () {
 });
 
 describe('Functional Check', function () {
-    it('ccznp.init()', function (done) {
-        ccznp.on('ready', function () {
-            if (ccznp._init === true)
-                done();
-        });
-        ccznp.init({ path: 'xxx' }, function (err) {
-            ccznp._sp.open = function (callback) {
-                callback(null);
-            };
-            ccznp.init({ path: 'xxx' }, function (err) {
-                if (!err)
-                    ccznp.emit('_ready');
-            });
-        });
-    });
-
     this.timeout(5000);
     it('ccznp.request() - timeout', function (done) {
         ccznp._unpi.send = function () {};
@@ -111,7 +93,7 @@ describe('Functional Check', function () {
 
     it('ccznp.request()', function (done) {
         var rsp = {status: 0};
-        ccznp._unpi.send = function () {};
+        ccznp._communicator.unpi.send = function () {};
         ccznp.request('SYS', 'ping', {}, function (err, result) {
             if (err)
                 console.log(err);
@@ -148,7 +130,7 @@ describe('Functional Check', function () {
             if (dataEvtFlag && flag)
                 done();
         });
-        ccznp._unpi.emit('data', data);
+        ccznp._communicator.unpi.emit('data', data);
     });
 
     it('event: AREQ', function (done) {
@@ -186,6 +168,6 @@ describe('Functional Check', function () {
                 done();
         });
 
-        ccznp._unpi.emit('data', data);
+        ccznp._communicator.unpi.emit('data', data);
     });
 });
