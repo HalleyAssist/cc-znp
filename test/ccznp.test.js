@@ -1,8 +1,15 @@
 var expect = require('chai').expect,
+    assert = require('chai').assert,
     CCZnp = require('../index'),
     SerialPort = require('@serialport/stream'),
     MockBinding = require('@serialport/binding-mock'),
+    ZpiObject = require('../lib/zpiObject'),
     Q = require('q')
+
+var chai = require("chai");
+var chaiAsPromised = require("chai-as-promised");
+
+chai.use(chaiAsPromised);
 
 SerialPort.Binding = MockBinding
 
@@ -21,128 +28,120 @@ describe('Signature Check', function () {
         await ccznp.start()
     });
 
-    it('ccznp.request(subsys, cmdId, valObj, callback)', function () {
+    it('ccznp.request(subsys, cmdId, valObj, callback)', async function () {
         ccznp._init = true;
 
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request({}, 'ping', [], function () {}); }).to.throw('Unrecognized subsystem');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request([], 'ping', [], function () {}); }).to.throw('Unrecognized subsystem');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('xxx', 'ping', [], function () {}); }).to.throw('Unrecognized subsystem');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request(123, 'ping', [], function () {}); }).to.throw('Unrecognized subsystem');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request(false, 'ping', [], function () {}); }).to.throw('Unrecognized subsystem');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request(undefined, 'ping', [], function () {}); }).to.throw('Unrecognized subsystem');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request(null, 'ping', [], function () {}); }).to.throw('Unrecognized subsystem');
+        function request(...args){
+            return Q.fcall(async function () { return ccznp.request(...args) })
+        }
 
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', {}, [], function () {}); }).to.throw('Unrecognized command');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', [], [], function () {}); }).to.throw('Unrecognized command');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', 'xxx', [], function () {}); }).to.throw('Unrecognized command');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', 123, [], function () {}); }).to.throw('Unrecognized command');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', false, [], function () {}); }).to.throw('Unrecognized command');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', undefined, [], function () {}); }).to.throw('Unrecognized command');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', null, [], function () {}); }).to.throw('Unrecognized command');
+        ccznp.spinLock = false;
+        await expect(request({}, 'ping', [], function () {})).to.eventually.be.rejectedWith(/Unrecognized subsystem/);
+        ccznp.spinLock = false;
+        await expect(request([], 'ping', [], function () {})).to.eventually.be.rejectedWith(/Unrecognized subsystem/);
+        ccznp.spinLock = false;
+        await expect(request('xxx', 'ping', [], function () {})).to.eventually.be.rejectedWith(/Unrecognized subsystem/);
+        ccznp.spinLock = false;
+        await expect(request(123, 'ping', [], function () {})).to.eventually.be.rejectedWith(/Unrecognized subsystem/);
+        ccznp.spinLock = false;
+        await expect(request(false, 'ping', [], function () {})).to.eventually.be.rejectedWith(/Unrecognized subsystem/);
+        ccznp.spinLock = false;
+        await expect(request(undefined, 'ping', [], function () {})).to.eventually.be.rejectedWith(/Unrecognized subsystem/);
+        ccznp.spinLock = false;
+        await expect(request(null, 'ping', [], function () {})).to.eventually.be.rejectedWith(/Unrecognized subsystem/);
 
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', 'ping', 'xxx', function () {}); }).to.throw('valObj should be an object');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', 'ping', 123, function () {}); }).to.throw('valObj should be an object');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', 'ping', false, function () {}); }).to.throw('valObj should be an object');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', 'ping', undefined, function () {}); }).to.throw('valObj should be an object');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', 'ping', null, function () {}); }).to.throw('valObj should be an object');
-
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', 'ping', [], {}); }).to.throw('callback should be a function');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', 'ping', [], []); }).to.throw('callback should be a function');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', 'ping', [], 'xxx'); }).to.throw('callback should be a function');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', 'ping', [], 123); }).to.throw('callback should be a function');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', 'ping', [], false); }).to.throw('callback should be a function');
-        ccznp._spinLock = false;
-        expect(function () { ccznp.request('SYS', 'ping', [], null); }).to.throw('callback should be a function');
-        ccznp._spinLock = false;
+        ccznp.spinLock = false;
+        await expect(request('SYS', {}, [], function () {})).to.eventually.be.rejectedWith(/Unrecognized command/);
+        ccznp.spinLock = false;
+        await expect(request('SYS', [], [], function () {})).to.eventually.be.rejectedWith(/Unrecognized command/);
+        ccznp.spinLock = false;
+        await expect(request('SYS', 'xxx', [], function () {})).to.eventually.be.rejectedWith(/Unrecognized command/);
+        ccznp.spinLock = false;
+        await expect(request('SYS', 123, [], function () {})).to.eventually.be.rejectedWith(/Unrecognized command/);
+        ccznp.spinLock = false;
+        await expect(request('SYS', false, [], function () {})).to.eventually.be.rejectedWith(/Unrecognized command/);
+        ccznp.spinLock = false;
+        await expect(request('SYS', undefined, [], function () {})).to.eventually.be.rejectedWith(/Unrecognized command/);
+        ccznp.spinLock = false;
+        await expect(request('SYS', null, [], function () {})).to.eventually.be.rejectedWith(/Unrecognized command/);
+/*
+        ccznp.spinLock = false;
+        await expect(request('SYS', 'ping', 'xxx', function () {})).to.eventually.be.rejectedWith('valObj should be an object');
+        ccznp.spinLock = false;
+        await expect(request('SYS', 'ping', 123, function () {})).to.eventually.be.rejectedWith('valObj should be an object');
+        ccznp.spinLock = false;
+        await expect(request('SYS', 'ping', false, function () {})).to.eventually.be.rejectedWith('valObj should be an object');
+        ccznp.spinLock = false;
+        await expect(request('SYS', 'ping', undefined, function () {})).to.eventually.be.rejectedWith('valObj should be an object');
+        ccznp.spinLock = false;
+        await expect(request('SYS', 'ping', null, function () {})).to.eventually.be.rejectedWith('valObj should be an object');
+*/
     });
 });
 
 describe('Functional Check', function () {
-    this.timeout(5000);
-    it('ccznp.request() - timeout', function (done) {
-        ccznp._unpi.send = function () {};
-        ccznp.request('SYS', 'ping', {}, function (err, result) {
-            if (err.message === 'request timeout')
-                done();
-        });
+    before('ccznp.init(spCfg[, callback])', async function () {
+        const p = MockBinding.createPort('/dev/ROBOT', { echo: true, record: true  })
+        const port = new SerialPort('/dev/ROBOT')
+        //await Q.ninvoke(port, 'open')
+        await Q.delay(10)
+        while(port.opening){
+            await Q.delay(10)
+        }
+        ccznp = new CCZnp(port);
+        await ccznp.start()
     });
-
-    it('ccznp.request()', function (done) {
-        var rsp = {status: 0};
+    this.timeout(2000);
+    it('ccznp.request() - timeout', async function () {
+        this.timeout(7000)
         ccznp._communicator.unpi.send = function () {};
-        ccznp.request('SYS', 'ping', {}, function (err, result) {
-            if (err)
-                console.log(err);
-            else if (result === rsp && ccznp._spinLock === false) 
-                done();
-        });
-        ccznp.emit('SRSP:SYS:ping', rsp);
+        await expect(ccznp.request('SYS', 'ping', {})).to.eventually.be.rejectedWith(/Timeout/);
+        expect(ccznp.spinLock == true).to.be.false
     });
 
-    it('event: data', function (done) {
-        var data = { sof: 254, len: 5, type: 3, subsys: 1, cmd: 2, payload: new Buffer([0, 1, 2, 3, 4, 0, 0, 0, 0]), fcs: 100, csum: 100 },
-            dataEvtFlag = false;
+    it('ccznp.request()', async function () {
+        var rsp = {payload:{status: 0}, type: 'SRSP', subsys: "SYS", cmd: "ping"};
+        ccznp._communicator.unpi.send = function () {};
+        let result = ccznp.request('SYS', 'ping', {});
+        await Q.delay(1)
+        await ccznp._communicator.receive(rsp);
+        result = await result
+        assert(!ccznp.spinLock, "spinlock should be reset")
+        assert(result == rsp.payload)
+    });
 
-        ccznp.on('data', function (msg) {
-            if (msg === data)
-                dataEvtFlag = true;
-        });
-        ccznp.on('SRSP:SYS:version', function (result) {
-            var flag = true,
-                parsedResult = {
-                    transportrev: 0,
-                    product: 1,
-                    majorrel: 2,
-                    minorrel: 3,
-                    maintrel: 4,
-                    revision: 0
-                };
+    it('event: data', async function () {
+        var data = { sof: 254, len: 5, type: 3, subsys: 1, cmd: 2, payload: new Buffer([0, 1, 2, 3, 4, 0, 0, 0, 0]), fcs: 100, csum: 100 }
 
-            for (var key in result) {
-                if (parsedResult[key] !== result[key])
-                    flag = false;
-            }
+        const zpi = new ZpiObject(1, 2)
+        const payload = await Q.ninvoke(zpi, 'parse', data.type, data.len, data.payload);
+        zpi.valObj = payload
+        const deferred = Q.defer()
+        ccznp._communicator.addPending(zpi, deferred)
+        await ccznp._parseMtIncomingData(data);
+        const result = await deferred.promise
+        var flag = true,
+            parsedResult = {
+                transportrev: 0,
+                product: 1,
+                majorrel: 2,
+                minorrel: 3,
+                maintrel: 4,
+                revision: 0
+            };
 
-            if (dataEvtFlag && flag)
-                done();
-        });
-        ccznp._communicator.unpi.emit('data', data);
+        for (var key in result) {
+            if (parsedResult[key] !== result[key])
+                flag = false;
+        }
+
+        assert(flag)
     });
 
     it('event: AREQ', function (done) {
-        var data = { sof: 254, len: 3, type: 2, subsys: 4, cmd: 128, payload: new Buffer([0, 8, 30]), fcs: 100, csum: 100 },
-            dataEvtFlag = false;
-
-        ccznp.on('data', function (msg) {
-            if (msg === data)
-                dataEvtFlag = true;
-        });
-
+        var data = { sof: 254, len: 3, type: 2, subsys: 4, cmd: 128, payload: new Buffer([0, 8, 30]), fcs: 100, csum: 100 }
         ccznp.on('AREQ', function (result) {
+            console.log("A")
             var flag = true,
                 parsedResult = {
                 subsys: 'AF',
@@ -154,17 +153,17 @@ describe('Functional Check', function () {
                 }
             };
 
-            for (var key in result) {
+            for (var key in parsedResult) {
                 if (key !== 'data' && parsedResult[key] !== result[key])
                     flag = false;
             }
 
-            for (var field in result[data]) {
+            for (var field in parsedResult.data) {
                 if ( parsedResult.data[key] !== result.data[key])
                     flag = false;
             }
 
-            if (dataEvtFlag && flag)
+            if (flag)
                 done();
         });
 
