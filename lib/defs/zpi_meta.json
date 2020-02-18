@@ -3038,6 +3038,19 @@
 					["remainingModes", 0]
 				]
 			}
+		},
+		"bdbSetChannel": {
+			"type": 1,
+			"cmdId": 8,
+			"params": {
+				"req": [
+					["isPrimary", 0],
+					["channel", 2]
+				],
+				"rsp": [
+					["status", 0]
+				]
+			}
 		}
 	},
 	"RCN": {
