@@ -13,6 +13,27 @@
 		}
 	},
 	"NWK": {
+		"spoofRequest": {
+			"type": 1,
+			"cmdId": 17,
+			"params": {
+				"req": [
+					["srcaddr", 1],
+					["srcextaddr", 3],
+					["dstaddr", 1],
+					["len", 0],
+					["data", 11],
+					["frameType", 0],
+					["handleOptions", 1],
+					["secure", 0],
+					["discoverRoute", 0],
+					["radius", 0]
+				],
+				"rsp": [
+					["status", 0]
+				]
+			}
+		},
 		"pollInd": {
 			"type": 2,
 			"cmdId": 139,
