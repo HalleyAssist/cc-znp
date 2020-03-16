@@ -2006,7 +2006,8 @@
 					["extaddr", 3],
 					["request", 0],
 					["removechildren", 0],
-					["rejoin", 0]
+					["rejoin", 0],
+					["status", 0]
 				]
 			}
 		},
