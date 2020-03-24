@@ -3053,5 +3053,29 @@
 				]
 			}
 		}
+	},
+	"SPK": {
+		"msgReady": {
+			"type": 2,
+			"cmdId": 1,
+			"params": {
+				"req": [
+				]
+			}
+		},
+		"msgRcv": {
+			"type": 2,
+			"cmdId": 2,
+			"params": {
+				"req": [],
+				"rsp": [
+					["status", 0],
+					["cmd", 0],
+					["len", 8],
+					["data", 11],
+					["more", 0]
+				]
+			}
+		}
 	}
 }

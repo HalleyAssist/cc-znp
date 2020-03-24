@@ -17,6 +17,7 @@
         "DBG": 8,
         "APP": 9,
         "RCN": 11,
+        "SPK": 12,
         "APP_CFG": 15
     },
     "ParamType": {
