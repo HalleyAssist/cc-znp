@@ -13,6 +13,27 @@
 		}
 	},
 	"NWK": {
+		"spoofRequest": {
+			"type": 1,
+			"cmdId": 17,
+			"params": {
+				"req": [
+					["srcaddr", 1],
+					["srcextaddr", 3],
+					["dstaddr", 1],
+					["len", 0],
+					["data", 11],
+					["frameType", 0],
+					["handleOptions", 1],
+					["secure", 0],
+					["discoverRoute", 0],
+					["radius", 0]
+				],
+				"rsp": [
+					["status", 0]
+				]
+			}
+		},
 		"pollInd": {
 			"type": 2,
 			"cmdId": 139,
@@ -63,6 +84,19 @@
 					["expiryTime", 0],
 					["rtstatus", 0],
 					["options", 0]
+				]
+			}
+		},
+		"rtgAdd": {
+			"type": 1,
+			"cmdId": 18,
+			"params": {
+				"req": [
+					["nwkaddr", 1],
+					["nextHopAddr", 1]
+				],
+				"rsp": [
+					["status", 0]
 				]
 			}
 		}
@@ -1985,7 +2019,8 @@
 					["extaddr", 3],
 					["request", 0],
 					["removechildren", 0],
-					["rejoin", 0]
+					["rejoin", 0],
+					["status", 0]
 				]
 			}
 		},
@@ -3036,6 +3071,19 @@
 					["status", 0],
 					["commissioningMode", 0],
 					["remainingModes", 0]
+				]
+			}
+		},
+		"bdbSetChannel": {
+			"type": 1,
+			"cmdId": 8,
+			"params": {
+				"req": [
+					["isPrimary", 0],
+					["channel", 2]
+				],
+				"rsp": [
+					["status", 0]
 				]
 			}
 		}

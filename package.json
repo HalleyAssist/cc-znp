@@ -34,14 +34,17 @@
   },
   "homepage": "https://github.com/zigbeer/cc-znp#readme",
   "dependencies": {
+    "chai-as-promised": "^7.1.1",
     "debug": "^2.x",
     "light-enum": "git+https://github.com/splitice/light-enum.git",
-    "@serialport/stream": "^3.x",
-    "@serialport/bindings": "^3.x",
-    "unpi": "^1.x"
+    "q": "git+https://github.com/HalleyAssist/q-lite.git",
+    "unpi": "git+https://github.com/HalleyAssist/unpi.git"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
+    "@serialport/binding-mock": "^8.0.4",
+    "@serialport/bindings": "^3.x",
+    "@serialport/stream": "^8.0.4",
+    "chai": "^4.2.0",
     "chance": "^1.0.4",
     "mocha": "^2.5.3"
   }

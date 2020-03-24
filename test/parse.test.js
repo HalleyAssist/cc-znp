@@ -1,4 +1,5 @@
 var expect = require('chai').expect,
+    assert = require('chai').assert,
     Chance = require('chance'),
     chance = new Chance();
 
@@ -153,14 +154,19 @@ function randomArgForParse(type, name) {
                 bufLen = chance.integer({min: 0, max: 20}) * 5;
             else if (name === 'bindingtablelist')
                 bufLen = chance.integer({min: 0, max: 10}) * 21;
-            testBuf = new Buffer(bufLen);
+            else if (name === 'energylist')
+                bufLen = chance.integer({min: 0, max: 10}) * 21;
+            else
+                assert(false, `unknown name ${name}`)
+                
+            testBuf = Buffer.alloc(bufLen)
             for (k = 0; k < bufLen; k += 1) {
                 testBuf[k] = chance.integer({min: 0, max: 255});
             }
             return testBuf;
         case 'zdomsgcb':
             bufLen = chance.integer({min: 0, max: 200});      // MT CMD Max 256bytes
-            testBuf = new Buffer(bufLen);
+            testBuf = Buffer.alloc(bufLen)
             for (k = 0; k < bufLen; k += 1) {
                 testBuf[k] = chance.integer({min: 0, max: 255});
             }
@@ -180,7 +186,7 @@ function randomArgForParse(type, name) {
         case 'uint8ZdoInd':
             return chance.integer({min: 0, max: 255});
         case 'dynbuffer':
-            testBuf = new Buffer(preBufLen);
+            testBuf = Buffer.alloc(preBufLen)
             for (k = 0; k < preBufLen; k += 1) {
                 testBuf[k] = chance.integer({min: 0, max: 255});
             }
