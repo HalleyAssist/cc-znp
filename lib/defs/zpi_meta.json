@@ -3112,7 +3112,7 @@
 			}
 		},
 		"msgRcv": {
-			"type": 2,
+			"type": 1,
 			"cmdId": 2,
 			"params": {
 				"req": [],
