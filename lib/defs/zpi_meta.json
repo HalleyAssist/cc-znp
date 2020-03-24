@@ -3124,6 +3124,18 @@
 					["data", 11],
 				]
 			}
+		},
+		"echo": {
+			"type": 1,
+			"cmdId": 48,
+			"params": {
+				"req": [
+					["value", 2]
+				],
+				"rsp": [
+					["value", 2]
+				]
+			}
 		}
 	}
 }
