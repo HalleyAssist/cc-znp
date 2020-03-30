@@ -3136,6 +3136,17 @@
 					["value", 2]
 				]
 			}
+		},
+		"otaGetIeee": {
+			"type": 1,
+			"cmdId": 3,
+			"params": {
+				"req": [
+				],
+				"rsp": [
+					["addr", 3]
+				]
+			}
 		}
 	}
 }
