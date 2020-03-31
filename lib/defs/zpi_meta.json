@@ -3149,6 +3149,17 @@
 					["endpoint", 1]
 				]
 			}
-		}
+		},
+		"getNwkAddr": {
+			"type": 1,
+			"cmdId": 3,
+			"params": {
+				"req": [
+				],
+				"rsp": [
+					["nwkaddr", 2]
+				]
+			}
+		},
 	}
 }
