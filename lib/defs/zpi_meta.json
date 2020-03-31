@@ -3152,7 +3152,7 @@
 		},
 		"getNwkAddr": {
 			"type": 1,
-			"cmdId": 3,
+			"cmdId": 4,
 			"params": {
 				"req": [
 				],
