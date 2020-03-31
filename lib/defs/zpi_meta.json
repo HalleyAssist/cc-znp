@@ -3144,7 +3144,8 @@
 				"req": [
 				],
 				"rsp": [
-					["addr", 3]
+					["extaddr", 3],
+					["nwkaddr", 1]
 				]
 			}
 		}
