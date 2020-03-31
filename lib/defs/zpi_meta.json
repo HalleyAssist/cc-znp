@@ -3160,6 +3160,21 @@
 					["nwkaddr", 2]
 				]
 			}
+		},
+		"version": {
+			"type": 1,
+			"cmdId": 5,
+			"params": {
+				"req": [],
+				"rsp": [
+					["transportrev", 0],
+					["product", 0],
+					["majorrel", 0],
+					["minorrel", 0],
+					["maintrel", 0],
+					["revision", 2]
+				]
+			}
 		}
 	}
 }
