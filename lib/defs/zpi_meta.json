@@ -3145,7 +3145,8 @@
 				],
 				"rsp": [
 					["extaddr", 3],
-					["nwkaddr", 1]
+					["nwkaddr", 1],
+					["endpoint", 1]
 				]
 			}
 		}
