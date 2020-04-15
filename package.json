@@ -41,9 +41,9 @@
     "unpi": "git+https://github.com/HalleyAssist/unpi.git"
   },
   "devDependencies": {
-    "@serialport/binding-mock": "^8.0.4",
+    "@serialport/binding-mock": "^8.x",
     "@serialport/bindings": "^3.x",
-    "@serialport/stream": "^8.0.4",
+    "@serialport/stream": "^8.x",
     "chai": "^4.2.0",
     "chance": "^1.0.4",
     "mocha": "^2.5.3"
