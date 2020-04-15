@@ -58,14 +58,15 @@ ru.clause('nwklistbuffer', function (name, bufLen) {
     });
 });
 
-describe('#.parse', function () {
-    zmeta.Subsys.enums.forEach(function (subsysObj) {
-        var subsys = subsysObj.key;
+describe('#.parse', async function () {
+    
+    for(const subsysObj of zmeta.Subsys.enums){
+        let Subsys = subsysObj.key;
 
-        if (subsys === 'RES0' || subsys === 'NWK') return;
+        if (Subsys === 'RES0' || Subsys === 'NWK') return;
 
-        zmeta.Commands[subsys].enums.forEach(function (zpiObject) {
-            var cmd = zpiObject.key,
+        for(const zpiObject of zmeta.Commands[Subsys].enums){
+            let cmd = zpiObject.key,
                 argObj,
                 rspParams,
                 payload,
@@ -101,13 +102,12 @@ describe('#.parse', function () {
             argObj.args = rspParams;
             payload = argObj.framer();
 
-            argObj.parse(argObj.type, payload.length, payload, function (err, result) {
-                it(argObj.cmd + ' parser check', function () {
-                    expect(result).to.eql(args);
-                });
+            const result = await argObj.parse(argObj.type, payload.length, payload)
+            it(argObj.cmd + ' parser check', function () {
+                expect(result).to.eql(args);
             });
-        });
-    });
+        }
+    }
 });
 
 function randomArgForParse(type, name) {

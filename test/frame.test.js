@@ -20,17 +20,17 @@ ru.clause('dynbuffer', function (name) {
 });
 
 describe('#.frame', function () {
-    zmeta.Subsys.enums.forEach(function (subsysObj) {
+    for(const subsysObj of zmeta.Subsys.enums){
         var Subsys = subsysObj.key;
 
         if (Subsys === 'RES0' || Subsys === 'NWK') return;
 
-        zmeta.Commands[Subsys].enums.forEach(function (zpiObject) {
+        for(const zpiObject of zmeta.Commands[Subsys].enums){
             var cmd = zpiObject.key,
-                argObj,
-                reqParams,
-                payload,
-                args = {};
+            argObj,
+            reqParams,
+            payload,
+            args = {};
 
             argObj = new ZpiObject(Subsys, cmd);
             argObj.parser = parser;
@@ -46,14 +46,13 @@ describe('#.frame', function () {
                 argObj.args = reqParams;
                 payload = argObj.frame();
 
-                argObj.parser(payload, function (err, result) {
-                    it(argObj.cmd + ' framer check', function () {
-                        expect(result).to.eql(args);
-                    });
+                const result = await argObj.parser(payload)
+                it(argObj.cmd + ' framer check', function () {
+                    expect(result).to.eql(args);
                 });
             }
-        });
-    });
+        }
+    }
 });
 
 function randomArgForFrame(type) {
