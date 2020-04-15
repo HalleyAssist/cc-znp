@@ -19,7 +19,7 @@ ru.clause('dynbuffer', function (name) {
     this.buffer(name, 6);
 });
 
-describe('#.frame', function () {
+describe('#.frame', async function () {
     for(const subsysObj of zmeta.Subsys.enums){
         var Subsys = subsysObj.key;
 
