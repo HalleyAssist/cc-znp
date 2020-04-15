@@ -6,7 +6,7 @@ var expect = require('chai').expect,
 var Unpi = require('unpi'),
     Concentrate = Unpi.Concentrate,
     DChunks = Unpi.DChunks,
-    ru = DChunks().Rule();
+    ru = (new DChunks()).Rule;
 
 var zmeta = require('../lib/zmeta'),
     ZpiObject = require('../lib/zpiObject'),
