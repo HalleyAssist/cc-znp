@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@serialport/binding-mock": "^8.x",
-    "@serialport/bindings": "^3.x",
+    "@serialport/bindings": "^8.x",
     "@serialport/stream": "^8.x",
     "chai": "^4.2.0",
     "chance": "^1.0.4",
