@@ -23,7 +23,7 @@ describe('#.frame', async function () {
     for(const subsysObj of zmeta.Subsys.enums){
         var Subsys = subsysObj.key;
 
-        if (Subsys === 'RES0' || Subsys === 'NWK') return;
+        if (Subsys === 'RES0' || Subsys === 'NWK') continue;
 
         for(const zpiObject of zmeta.Commands[Subsys].enums){
             var cmd = zpiObject.key,

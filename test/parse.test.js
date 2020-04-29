@@ -61,19 +61,19 @@ ru.clause('nwklistbuffer', function (name, bufLen) {
 describe('#.parse', async function () {
     
     for(const subsysObj of zmeta.Subsys.enums){
-        let Subsys = subsysObj.key;
+        let subsys = subsysObj.key;
 
-        if (Subsys === 'RES0' || Subsys === 'NWK') return;
+        if (subsys === 'RES0' || subsys === 'NWK') continue;
 
-        for(const zpiObject of zmeta.Commands[Subsys].enums){
+        for(const zpiObject of zmeta.Commands[subsys].enums){
             let cmd = zpiObject.key,
                 argObj,
                 rspParams,
                 payload,
                 args = {};
 
-            if (subsys === 'SYS' && cmd === 'resetReq') return;  // AREQ from host
-            if (subsys === 'DBG' && cmd === 'msg') return;       // AREQ from host
+            if (subsys === 'SYS' && cmd === 'resetReq') continue;  // AREQ from host
+            if (subsys === 'DBG' && cmd === 'msg') continue;       // AREQ from host
 
             argObj = new ZpiObject(subsys, cmd);
             argObj.framer = framer;
