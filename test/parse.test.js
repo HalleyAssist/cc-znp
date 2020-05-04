@@ -102,7 +102,7 @@ describe('#.parse', async function () {
             argObj.args = rspParams;
             payload = argObj.framer();
 
-            const result = await argObj.parse(argObj.type, payload.length, payload)
+            const result = await argObj.parse(argObj.type, payload)
             it(argObj.cmd + ' parser check', function () {
                 expect(result).to.eql(args);
             });
