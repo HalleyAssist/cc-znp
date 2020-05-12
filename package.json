@@ -37,7 +37,7 @@
     "chai-as-promised": "^7.1.1",
     "debug": "^2.x",
     "light-enum": "git+https://github.com/splitice/light-enum.git",
-    "q": "git+https://github.com/HalleyAssist/q-lite.git",
+    "q-lite": "git+https://github.com/HalleyAssist/q-lite.git",
     "unpi": "git+https://github.com/HalleyAssist/unpi.git"
   },
   "devDependencies": {
