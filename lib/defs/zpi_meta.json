@@ -116,6 +116,23 @@
 				]
 			}
 		},
+		"assoc": {
+			"type": 1,
+			"cmdId": 20,
+			"params": {
+				"req": [
+					["nwkaddr", 1]
+				],
+				"rsp": [
+					["shortAddr", 1],
+					["addrIdx", 1],
+					["nodeRelation", 0],
+					["devStatus", 0],
+					["assocCnt", 0],
+					["age", 0]
+				]
+			}
+		},
 		"queuedEntry": {
 			"type": 2,
 			"cmdId": 140,
