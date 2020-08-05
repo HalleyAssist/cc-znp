@@ -7,8 +7,7 @@
         "MTO_ROUTE_NRC": 16,
         "RES1": 32,
         "MULTICAST_ROUTE": 64,
-        "RES2": 128,
-        "RES3": 256
+        "SRC_RT": 128
     },
     "rtgStatus": {
         "INIT": 0,
