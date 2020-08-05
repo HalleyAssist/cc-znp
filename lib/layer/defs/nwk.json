@@ -1,0 +1,20 @@
+{
+    "rtgOptions": {
+        "MTO_ROUTE": 1,
+        "NO_ROUTE_CACHE": 2,
+        "RTG_RECORD": 4,
+        "MTO_ROUTE_RC": 8,
+        "MTO_ROUTE_NRC": 16,
+        "RES1": 32,
+        "MULTICAST_ROUTE": 64,
+        "RES2": 128,
+        "RES3": 256
+    },
+    "rtgStatus": {
+        "INIT": 0,
+        "ACTIVE": 1,
+        "DISC": 2,
+        "LINK_FAIL": 3,
+        "REPAIR": 4
+    }
+}
