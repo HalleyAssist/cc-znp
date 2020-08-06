@@ -2365,6 +2365,16 @@
 				]
 			}
 		},
+		"parentAnnceInd": {
+			"type": 2,
+			"cmdId": 159,
+			"params": {
+				"req": [
+					["children", 9],
+					["childrenlist", 11]
+				]
+			}
+		},
 		"tcDeviceInd": {
 			"type": 2,
 			"cmdId": 202,
