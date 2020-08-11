@@ -15,18 +15,14 @@ ru.clause('listbuffer', function (name) {
     });
 });
 
-ru.clause('dynbuffer', function (name) {
-    this.buffer(name, 6);
-});
-
 describe('#.frame', async function () {
     for(const subsysObj of zmeta.Subsys.enums){
-        var Subsys = subsysObj.key;
+        let Subsys = subsysObj.key;
 
         if (Subsys === 'RES0' || Subsys === 'NWK') continue;
 
         for(const zpiObject of zmeta.Commands[Subsys].enums){
-            var cmd = zpiObject.key,
+            let cmd = zpiObject.key,
             argObj,
             reqParams,
             payload,
@@ -38,16 +34,28 @@ describe('#.frame', async function () {
             if (argObj.type === 'SREQ') {
                 reqParams = zmeta.getReqParams(Subsys, cmd);
 
+                let preLen
                 reqParams.forEach(function (arg) {
                     arg.value = randomArgForFrame(arg.type);
+                    if(arg.type === 'dynbuffer' || arg.type === 'listbuffer'){
+                        preLen = arg.value.length
+                    }
                     args[arg.name] = arg.value;
                 });
+                if(preLen !== undefined){    
+                    reqParams.forEach(function (arg) {
+                        if(arg.type.startsWith('_preLen')){
+                            args[arg.name] = preLen;
+                        }
+                    })
+                }
 
-                argObj.args = reqParams;
-                payload = argObj.frame();
+                argObj.args = [...reqParams];
 
-                const result = await argObj.parser(payload)
-                it(argObj.cmd + ' framer check', function () {
+                it(argObj.cmd + ' framer check', async () => {
+                    payload = argObj.frame();
+                    const result = await argObj.parser(payload)
+                    expect(argObj.args).to.eql(reqParams);
                     expect(result).to.eql(args);
                 });
             }
@@ -69,7 +77,7 @@ function randomArgForFrame(type) {
             return chance.integer({min: 0, max: 4294967295});
         case 'buffer':
         case 'dynbuffer':
-            testBuf = new Buffer(6);
+            testBuf = Buffer.alloc(6);
             for (k = 0; k < 6; k += 1) {
                 testBuf[k] = chance.integer({min: 0, max: 255});
             }
@@ -89,8 +97,8 @@ function randomArgForFrame(type) {
     return;
 }
 
-function parser(zBuf, callback) {
-    var chunkRules = [],
+async function parser(zBuf) {
+    let chunkRules = [],
         err,
         rspParams,
         parser;
@@ -113,22 +121,19 @@ function parser(zBuf, callback) {
 
     if (!err) {
         if (chunkRules.length === 0) {
-            callback(null, {});
-            return;
+            return {};
         }
 
-        parser = DChunks().join(chunkRules).compile();
-
-        parser.once('parsed', function (result) {
-            parser = null;
-            callback(null, result);
-        });
+        parser = (new DChunks()).join(chunkRules).compile();
     }
 
     if (!parser)    // error occurs, no parser created
-        callback(err);
-    else
-        parser.end(zBuf);
+        throw err
+    else {
+        for(const result of await parser.process(zBuf)){
+            return result
+        }
+    }
 }
 
 function bufToArray(buf) {

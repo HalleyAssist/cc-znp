@@ -4,7 +4,7 @@ var expect = require('chai').expect,
     SerialPort = require('@serialport/stream'),
     MockBinding = require('@serialport/binding-mock'),
     ZpiObject = require('../lib/zpiObject'),
-    Q = require('q')
+    Q = require('q-lite')
 
 var chai = require("chai");
 var chaiAsPromised = require("chai-as-promised");
@@ -25,7 +25,7 @@ describe('Signature Check', function () {
             await Q.delay(10)
         }
         ccznp = new CCZnp(port);
-        await ccznp.start()
+        await ccznp.start(false)
     });
 
     it('ccznp.request(subsys, cmdId, valObj, callback)', async function () {
@@ -89,7 +89,7 @@ describe('Functional Check', function () {
             await Q.delay(10)
         }
         ccznp = new CCZnp(port);
-        await ccznp.start()
+        await ccznp.start(false)
     });
     this.timeout(2000);
     it('ccznp.request() - timeout', async function () {
@@ -111,14 +111,15 @@ describe('Functional Check', function () {
     });
 
     it('event: data', async function () {
-        var data = { sof: 254, len: 5, type: 3, subsys: 1, cmd: 2, payload: new Buffer([0, 1, 2, 3, 4, 0, 0, 0, 0]), fcs: 100, csum: 100 }
+        var data = { sof: 254, len: 9, type: 3, subsys: 1, cmd: 2, payload: Buffer.from([0, 1, 2, 3, 4, 0, 0, 0, 0]), fcs: 100, csum: 100 }
 
         const zpi = new ZpiObject(1, 2)
-        const payload = await Q.ninvoke(zpi, 'parse', data.type, data.len, data.payload);
+        const payload = await zpi.parse(data.type, data.payload);
         zpi.valObj = payload
         const deferred = Q.defer()
         ccznp._communicator.addPending(zpi, deferred)
-        await ccznp._parseMtIncomingData(data);
+        const parseResult = await ccznp._parseMtIncomingData(data);
+        expect(parseResult).to.be.true
         const result = await deferred.promise
         var flag = true,
             parsedResult = {
@@ -139,9 +140,8 @@ describe('Functional Check', function () {
     });
 
     it('event: AREQ', function (done) {
-        var data = { sof: 254, len: 3, type: 2, subsys: 4, cmd: 128, payload: new Buffer([0, 8, 30]), fcs: 100, csum: 100 }
+        var data = { sof: 254, len: 3, type: 2, subsys: 4, cmd: 128, payload: Buffer.from([0, 8, 30]), fcs: 100, csum: 100 }
         ccznp.on('AREQ', function (result) {
-            console.log("A")
             var flag = true,
                 parsedResult = {
                 subsys: 'AF',

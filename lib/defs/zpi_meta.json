@@ -224,7 +224,7 @@
 			"params": {
 				"req": [
 					["address", 1],
-					["len", 0],
+					["len", 7],
 					["value", 11]
 				],
 				"rsp": [
@@ -239,7 +239,7 @@
 				"req": [
 					["id", 1],
 					["len", 1],
-					["initlen", 0],
+					["initlen", 7],
 					["initvalue", 11]
 				],
 				"rsp": [
@@ -269,7 +269,7 @@
 				"req": [
 					["id", 1],
 					["offset", 0],
-					["len", 0],
+					["len", 7],
 					["value", 11]
 				],
 				"rsp": [
@@ -630,7 +630,7 @@
 				"req": [
 					["id", 1],
 					["offset", 1],
-					["len", 1],
+					["len", 8],
 					["value", 11]
 				],
 				"rsp": [

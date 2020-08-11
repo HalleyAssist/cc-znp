@@ -10,53 +10,7 @@ var Unpi = require('unpi'),
 
 var zmeta = require('../lib/zmeta'),
     ZpiObject = require('../lib/zpiObject'),
-    preBufLen;
-
-ru.clause('dynbuffer', function (name) {
-    this.tap(function () {
-        this.vars[name] = this.vars.preLenData;
-        delete this.vars.preLenData;
-    });
-});
-
-ru.clause('nwklistbuffer', function (name, bufLen) {
-    this.buffer(name, bufLen - 6).tap(function () {
-        var buf = this.vars[name],
-            list = [],
-            listcount,
-            getList,
-            start = 0,
-            end,
-            len,
-            i;
-
-        if (name === 'networklist') {
-            listcount = buf.length / 12;
-            end = len =12;
-            getList = networkList;
-        } else if (name === 'neighborlqilist') {
-            listcount = buf.length / 22;
-            end = len =22;
-            getList = neighborLqiList;
-        } else if (name === 'routingtablelist') {
-            listcount = buf.length / 5;
-            end = len =5;
-            getList = routingTableList;
-        } else {
-            listcount = buf.length / 21;
-            this.vars[name] = bindTableList(buf, listcount);
-            return;
-        }
-
-        for (i = 0; i < listcount; i += 1) {
-            list.push(getList(buf.slice(start, end)));
-            start = start + len;
-            end = end + len;
-        }
-
-        this.vars[name] = list;
-    });
-});
+    preBufL
 
 describe('#.parse', async function () {
     
@@ -64,7 +18,7 @@ describe('#.parse', async function () {
         let subsys = subsysObj.key;
 
         if (subsys === 'RES0' || subsys === 'NWK') continue;
-
+        
         for(const zpiObject of zmeta.Commands[subsys].enums){
             let cmd = zpiObject.key,
                 argObj,
@@ -132,7 +86,7 @@ function randomArgForParse(type, name) {
         case 'buffer42':
         case 'buffer100':
             bufLen = parseInt(type.slice(6));
-            testBuf = new Buffer(bufLen);
+            testBuf = Buffer.alloc(bufLen);
             for (k = 0; k < bufLen; k += 1) {
                 testBuf[k] = chance.integer({min: 0, max: 255});
             }
@@ -140,7 +94,7 @@ function randomArgForParse(type, name) {
         case 'buffer':
         case 'devlistbuffer':
             bufLen = chance.integer({min: 0, max: 128}) * 2;  // MT CMD Max 256bytes
-            testBuf = new Buffer(bufLen);
+            testBuf = Buffer.alloc(bufLen);
             for (k = 0; k < bufLen; k += 1) {
                 testBuf[k] = chance.integer({min: 0, max: 255});
             }
@@ -226,7 +180,7 @@ function framer() {
             case 'zdomsgcb':
             case 'dynbuffer':
             case 'nwklistbuffer':
-                dataBuf = dataBuf.buffer(new Buffer(val));
+                dataBuf = dataBuf.buffer(Buffer.from(val));
                 break;
             case 'uint8ZdoInd':
             case '_preLenUint8':
@@ -244,7 +198,7 @@ function framer() {
                 dataBuf = dataBuf.uint32le(lsb).uint32le(msb);
                 break;
             case 'devlistbuffer':
-                dataBuf = dataBuf.buffer(new Buffer(val));
+                dataBuf = dataBuf.buffer(Buffer.from(val));
                 break;
             default:
                 throw new Error('Unknown Data Type');
