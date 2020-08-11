@@ -1041,10 +1041,10 @@
 			"params": {
 				"req": [
 					["dstaddr", 1],
-					["destendpoint", 0],
-					["srcendpoint", 0],
-					["clusterid", 1],
-					["transid", 0],
+					["dstep", 0],
+					["srcep", 0],
+					["cluster", 1],
+					["trans", 0],
 					["options", 0],
 					["radius", 0],
 					["relaycount", 0],
