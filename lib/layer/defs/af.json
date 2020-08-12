@@ -15,7 +15,7 @@
         "PREPROCESS": 4,
         "LIMIT_CONCENTRATOR": 8,
         "ACK_REQUEST": 16,
-        "SUPRESS_ROUTE_DISC_NETWORK": 32,
+        "DISC_ROUTE": 32,
         "EN_SECURITY": 64,
         "SKIP_ROUTING": 128
     }
