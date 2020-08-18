@@ -80,8 +80,12 @@ describe('Signature Check', function () {
 });
 
 describe('Functional Check', function () {
-    before('ccznp.init(spCfg[, callback])', async function () {
-        const p = MockBinding.createPort('/dev/ROBOT', { echo: true, record: true  })
+    let mockEndpoint
+    before(function () {
+        mockEndpoint = MockBinding.createPort('/dev/ROBOT', { echo: true, record: true  })
+    });
+    this.timeout(2000);
+    it('basic operation', async function(){
         const port = new SerialPort('/dev/ROBOT')
         //await Q.ninvoke(port, 'open')
         await Q.delay(10)
@@ -90,8 +94,19 @@ describe('Functional Check', function () {
         }
         ccznp = new CCZnp(port);
         await ccznp.start(false)
-    });
-    this.timeout(2000);
+        let found = false
+        ccznp.on('AREQ', d=>found = true)
+        await port.binding.emitData(new Buffer([ 0xfe, 0x00, 0x46, 0x00, 0x46 ]))
+        await Q.delay(10)
+        expect(found).to.be.true
+        found = false
+        await ccznp.close()
+        await port.binding.emitData(new Buffer([ 0xfe, 0x00, 0x46, 0x00, 0x46 ]))
+        await Q.delay(10)
+        expect(found).to.be.false
+
+        await ccznp.start(false)
+    })
     it('ccznp.request() - timeout', async function () {
         this.timeout(7000)
         ccznp._communicator.unpi.send = function () {};
