@@ -42,7 +42,8 @@
         "buffer42": 18,
         "buffer100": 19,
         "uint8ZdoInd": 20,
-        "uint32be": 21
+        "uint32be": 21,
+        "dynUint16a": 22
     },
     "ErrorCodes": {
         "ZSuccess": 0,

@@ -39,7 +39,7 @@
 			"cmdId": 139,
 			"params": {
 				"req": [
-					["nwkaddr", 1]
+					["nwkaddrs", 22]
 				]
 			}
 		},
