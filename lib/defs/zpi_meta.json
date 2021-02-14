@@ -116,6 +116,18 @@
 				]
 			}
 		},
+		"queueBufRemove": {
+			"type": 1,
+			"cmdId": 21,
+			"params": {
+				"req": [
+					["nsduHandle", 0]
+				],
+				"rsp": [
+					["status", 0]
+				]
+			}
+		},
 		"assoc": {
 			"type": 1,
 			"cmdId": 20,
@@ -141,7 +153,10 @@
 					["nwkaddr", 1],
 					["rtgState", 0],
 					["retries", 0],
-					["apsRetries", 0]
+					["apsRetries", 0],
+					["lastCnfStatus", 0],
+					["macSrcAddr", 1],
+					["nsduHandle", 0]
 				]
 			}
 		}
