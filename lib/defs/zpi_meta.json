@@ -2604,7 +2604,7 @@
 					["shortaddr", 1],
 					["devicetype", 0],
 					["devicestate", 0],
-					["numassocdevices", 9],
+					["assocdeviceslistlen", 7],
 					["assocdeviceslist", 11]
 				]
 			}
