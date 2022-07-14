@@ -3079,8 +3079,7 @@
 			"cmdId": 128,
 			"params": {
 				"req": [
-					["length", 0],
-					["string", 11]
+					["string", 23]
 				]
 			}
 		}
