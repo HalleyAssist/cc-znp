@@ -2385,6 +2385,7 @@
 			"cmdId": 159,
 			"params": {
 				"req": [
+					["status", 0],
 					["children", 9],
 					["childrenlist", 11]
 				]
