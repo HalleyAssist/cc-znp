@@ -4,7 +4,7 @@ var expect = require('chai').expect,
     SerialPort = require('@serialport/stream'),
     MockBinding = require('@serialport/binding-mock'),
     ZpiObject = require('../lib/zpiObject'),
-    Q = require('q-lite')
+    Q = require('@halleyassist/q-lite')
 
 var chai = require("chai");
 var chaiAsPromised = require("chai-as-promised");
