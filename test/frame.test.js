@@ -83,7 +83,7 @@ function randomArgForFrame(type) {
             }
             return testBuf;
         case 'longaddr':
-            return '0x00124b00019c2ee9';
+            return '00124b00019c2ee9';
         case 'listbuffer':
             testArr = [];
             for (k = 0; k < 3; k += 1) {
