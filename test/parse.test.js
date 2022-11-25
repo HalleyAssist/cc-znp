@@ -396,7 +396,7 @@ function beaconList(buf) {
 function addrBuf2Str(buf) {
     var bufLen = buf.length,
         val,
-        strChunk = '0x';
+        strChunk = '';
 
     for (var i = 0; i < bufLen; i += 1) {
         val = buf.readUInt8(bufLen - i - 1);
