@@ -1242,7 +1242,7 @@
 			"cmdId": 1,
 			"params": {
 				"req": [
-					["shortaddr", 1],
+					["nwkaddr", 1],
 					["reqtype", 0],
 					["startindex", 0]
 				],
