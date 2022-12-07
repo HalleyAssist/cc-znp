@@ -1463,7 +1463,7 @@
 			"cmdId": 35,
 			"params": {
 				"req": [
-					["shortaddr", 1],
+					["nwkaddr", 1],
 					["ieeeaddr", 3],
 					["linkkey", 13]
 				],
@@ -2117,7 +2117,7 @@
 			"cmdId": 40,
 			"params": {
 				"req": [
-					["shortaddr", 1],
+					["nwkaddr", 1],
 					["transseq", 0],
 					["cmd", 1],
 					["len", 0],
@@ -2133,7 +2133,7 @@
 			"cmdId": 41,
 			"params": {
 				"req": [
-					["shortaddr", 1],
+					["nwkaddr", 1],
 					["nwkaddr", 1],
 					["cmd", 0]
 				],
@@ -2147,7 +2147,7 @@
 			"cmdId": 66,
 			"params": {
 				"req": [
-					["shortaddr", 1],
+					["nwkaddr", 1],
 					["extaddr", 3],
 					["linkkey", 13]
 				],
@@ -2336,7 +2336,7 @@
 			"params": {
 				"req": [],
 				"rsp": [
-					["shortaddr", 1],
+					["nwkaddr", 1],
 					["devstate", 0],
 					["panid", 1],
 					["parentaddr", 1],
@@ -2602,7 +2602,7 @@
 				"rsp": [
 					["status", 0],
 					["ieeeaddr", 3],
-					["shortaddr", 1],
+					["nwkaddr", 1],
 					["devicetype", 0],
 					["devicestate", 0],
 					["assocdeviceslistlen", 7],
