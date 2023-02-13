@@ -663,6 +663,36 @@
 				]
 			}
 		},
+		"enableWatchdog": {
+			"type": 1,
+			"cmdId": 32,
+			"params": {
+				"req": [],
+				"rsp": [
+					["status", 0]
+				]
+			}
+		},
+		"disableWatchdog": {
+			"type": 1,
+			"cmdId": 33,
+			"params": {
+				"req": [],
+				"rsp": [
+					["status", 0]
+				]
+			}
+		},
+		"forceReset": {
+			"type": 1,
+			"cmdId": 34,
+			"params": {
+				"req": [],
+				"rsp": [
+					["status", 0]
+				]
+			}
+		},
 		"resetInd": {
 			"type": 2,
 			"cmdId": 128,
