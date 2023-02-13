@@ -707,6 +707,17 @@
 				]
 			}
 		},
+		"wdogInd": {
+			"type": 2,
+			"cmdId": 131,
+			"params": {
+				"req": [
+					["nvStatus", 0],
+					["curStatus", 0],
+					["lastValue", 0]
+				]
+			}
+		},
 		"osalTimerExpired": {
 			"type": 2,
 			"cmdId": 129,
