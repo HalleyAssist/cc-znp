@@ -714,7 +714,8 @@
 				"req": [
 					["nvStatus", 0],
 					["curStatus", 0],
-					["lastValue", 0]
+					["lastValue", 0],
+					["temp", 24]
 				]
 			}
 		},
