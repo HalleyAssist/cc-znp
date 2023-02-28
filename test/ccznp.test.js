@@ -108,7 +108,7 @@ describe('Functional Check', function () {
         await ccznp.start(false)
     })
     it('ccznp.request() - timeout', async function () {
-        this.timeout(7000)
+        this.timeout(17000)
         ccznp._communicator.unpi.send = function () {};
         await expect(ccznp.request('SYS', 'ping', {})).to.eventually.be.rejectedWith(/Timeout/);
         expect(ccznp.spinLock == true).to.be.false

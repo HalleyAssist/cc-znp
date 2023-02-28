@@ -663,6 +663,36 @@
 				]
 			}
 		},
+		"enableWatchdog": {
+			"type": 1,
+			"cmdId": 32,
+			"params": {
+				"req": [],
+				"rsp": [
+					["status", 0]
+				]
+			}
+		},
+		"disableWatchdog": {
+			"type": 1,
+			"cmdId": 33,
+			"params": {
+				"req": [],
+				"rsp": [
+					["status", 0]
+				]
+			}
+		},
+		"forceReset": {
+			"type": 1,
+			"cmdId": 34,
+			"params": {
+				"req": [],
+				"rsp": [
+					["status", 0]
+				]
+			}
+		},
 		"resetInd": {
 			"type": 2,
 			"cmdId": 128,
@@ -674,6 +704,18 @@
 					["majorrel", 0],
 					["minorrel", 0],
 					["hwrev", 0]
+				]
+			}
+		},
+		"wdogInd": {
+			"type": 2,
+			"cmdId": 131,
+			"params": {
+				"req": [
+					["nvStatus", 0],
+					["curStatus", 0],
+					["lastValue", 0],
+					["temp", 24]
 				]
 			}
 		},
@@ -1242,7 +1284,7 @@
 			"cmdId": 1,
 			"params": {
 				"req": [
-					["shortaddr", 1],
+					["nwkaddr", 1],
 					["reqtype", 0],
 					["startindex", 0]
 				],
@@ -1428,11 +1470,11 @@
 			"params": {
 				"req": [
 					["dstaddr", 1],
-					["srcaddr", 3],
+					["srcaddress", 3],
 					["srcendpoint", 0],
 					["clusterid", 1],
 					["dstaddrmode", 0],
-					["addr_short_long", 3],
+					["dstaddress", 3],
 					["dstendpoint", 0]
 				],
 				"rsp": [
@@ -1446,11 +1488,11 @@
 			"params": {
 				"req": [
 					["dstaddr", 1],
-					["srcaddr", 3],
+					["srcaddress", 3],
 					["srcendpoint", 0],
 					["clusterid", 1],
 					["dstaddrmode", 0],
-					["addr_short_long", 3],
+					["dstaddress", 3],
 					["dstendpoint", 0]
 				],
 				"rsp": [
@@ -1463,7 +1505,7 @@
 			"cmdId": 35,
 			"params": {
 				"req": [
-					["shortaddr", 1],
+					["nwkaddr", 1],
 					["ieeeaddr", 3],
 					["linkkey", 13]
 				],
@@ -2117,7 +2159,7 @@
 			"cmdId": 40,
 			"params": {
 				"req": [
-					["shortaddr", 1],
+					["nwkaddr", 1],
 					["transseq", 0],
 					["cmd", 1],
 					["len", 0],
@@ -2133,7 +2175,7 @@
 			"cmdId": 41,
 			"params": {
 				"req": [
-					["shortaddr", 1],
+					["nwkaddr", 1],
 					["nwkaddr", 1],
 					["cmd", 0]
 				],
@@ -2147,7 +2189,7 @@
 			"cmdId": 66,
 			"params": {
 				"req": [
-					["shortaddr", 1],
+					["nwkaddr", 1],
 					["extaddr", 3],
 					["linkkey", 13]
 				],
@@ -2336,7 +2378,7 @@
 			"params": {
 				"req": [],
 				"rsp": [
-					["shortaddr", 1],
+					["nwkaddr", 1],
 					["devstate", 0],
 					["panid", 1],
 					["parentaddr", 1],
@@ -2602,7 +2644,7 @@
 				"rsp": [
 					["status", 0],
 					["ieeeaddr", 3],
-					["shortaddr", 1],
+					["nwkaddr", 1],
 					["devicetype", 0],
 					["devicestate", 0],
 					["assocdeviceslistlen", 7],

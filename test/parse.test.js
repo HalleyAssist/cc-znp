@@ -126,7 +126,7 @@ function randomArgForParse(type, name) {
             }
             return testBuf;
         case 'longaddr':
-            return '0x00124b00019c2ee9';
+            return '00124b00019c2ee9';
         case '_preLenUint8':
         case '_preLenUint16':
             preBufLen = chance.integer({min: 0, max: 200});
@@ -192,8 +192,8 @@ function framer() {
                 dataBuf = dataBuf.uint16(val);
                 break;
             case 'longaddr':
-                var msb = parseInt(val.slice(2,10), 16),
-                    lsb = parseInt(val.slice(10), 16);
+                var msb = parseInt(val.slice(0,8), 16),
+                    lsb = parseInt(val.slice(8), 16);
 
                 dataBuf = dataBuf.uint32le(lsb).uint32le(msb);
                 break;
@@ -396,7 +396,7 @@ function beaconList(buf) {
 function addrBuf2Str(buf) {
     var bufLen = buf.length,
         val,
-        strChunk = '0x';
+        strChunk = '';
 
     for (var i = 0; i < bufLen; i += 1) {
         val = buf.readUInt8(bufLen - i - 1);
