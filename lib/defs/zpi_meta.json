@@ -703,7 +703,8 @@
 					["productid", 0],
 					["majorrel", 0],
 					["minorrel", 0],
-					["hwrev", 0]
+					["hwrev", 0],
+					["reason32", 2]
 				]
 			}
 		},
