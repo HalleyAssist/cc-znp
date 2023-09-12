@@ -145,6 +145,18 @@
 				]
 			}
 		},
+		"neighborRemove": {
+			"type": 1,
+			"cmdId": 22,
+			"params": {
+				"req": [
+					["nwkaddr", 1]
+				],
+				"rsp": [
+					["status", 0]
+				]
+			}
+		},
 		"queuedEntry": {
 			"type": 2,
 			"cmdId": 140,
