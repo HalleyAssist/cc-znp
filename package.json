@@ -34,10 +34,10 @@
   },
   "homepage": "https://github.com/zigbeer/cc-znp#readme",
   "dependencies": {
+    "@halleyassist/q-lite": "^0.9.29",
     "chai-as-promised": "^7.1.1",
     "debug": "^2.x",
     "light-enum": "git+https://github.com/splitice/light-enum.git",
-    "@halleyassist/q-lite": "^0.9.6",
     "unpi": "git+https://github.com/HalleyAssist/unpi.git"
   },
   "devDependencies": {

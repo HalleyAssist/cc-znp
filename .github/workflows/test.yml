@@ -3,11 +3,12 @@ on:
   push:
 
 jobs:
-  check_eslint:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Install modules
       run: |
         sudo npm install -g eslint
-    - run: eslint lib --ext .js,.jsx,.ts,.tsx
+    - name: check eslint
+      run: eslint lib --ext .js,.jsx,.ts,.tsx

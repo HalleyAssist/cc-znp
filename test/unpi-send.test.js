@@ -8,9 +8,7 @@ var chai = require('chai'),
 chai.use(chaiAsPromised);
 
 describe('Arguments Testing', function() {
-    var unpi = new Unpi({ lenBytes: 1 });
-    var sapiStartReqBuf = new Buffer([ 0xfe, 0x00, 0x26, 0x00, 0x26 ]),
-        sapiStartRspBuf = new Buffer([ 0xfe, 0x00, 0x66, 0x00, 0x66 ]);
+    var unpi = new Unpi()
 
     describe('#.send', function() {
         it('should be a function', function () {
@@ -106,7 +104,7 @@ describe('Arguments Testing', function() {
 });
 
 describe('Functional Testing', function() {
-    var unpi = new Unpi({ lenBytes: 1 });
+    var unpi = new Unpi();
     var sapiStartReqBuf = new Buffer([ 0xfe, 0x00, 0x26, 0x00, 0x26 ]),
         sapiStartRspBuf = new Buffer([ 0xfe, 0x00, 0x66, 0x00, 0x66 ]);
 
