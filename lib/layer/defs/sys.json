@@ -52,9 +52,15 @@
         "RX_ON_IDLE": 1
     },
     "resetReason": {
-        "POWER_UP": 0,
-        "EXTERNAL": 1,
-        "WATCH_DOG": 2
+        "RSTSRC_PWR_ON": 0,
+        "RSTSRC_PIN_RESET": 1,
+        "RSTSRC_VDDS_LOSS": 2,
+        "RSTSRC_VDD_LOSS": 3,
+        "RSTSRC_VDDR_LOSS": 4,
+        "RSTSRC_CLK_LOSS": 5,
+        "RSTSRC_SYSRESET": 6,
+        "RSTSRC_WARMRESET": 7,
+        "RSTSRC_WAKEUP_FROM_SHUTDOWN": 8
     },
     "nvItemInitStatus": {
         "ALREADY_EXISTS": 0,
