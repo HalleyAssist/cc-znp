@@ -301,5 +301,27 @@
         "DUPLICATE_DEVICE_LIST": 769,
         "DUPLICATE_DEVICE_LIST_KA_TIMEOUT": 770,
         "ZNP_HAS_CONFIGURED": 96
+    },
+    "nwkStatus": {
+        "NO_ROUTE_AVAIL": 0,
+        "TREE_LINK_FAILURE": 1,
+        "NONTREE_LINK_FAILURE": 2,
+        "LOW_BATTERY_LEVEL": 3,
+        "NO_ROUTING_CAPACITY": 4,
+        "NO_INDIRECT_CAPACITY": 5,
+        "INDIRECT_TRANS_EXPIRY": 6,
+        "TARGET_DEVICE_UNAVAIL": 7,
+        "TARGET_ADDRESS_UNALLOCATED": 8,
+        "PARENT_LINK_FAILURE": 9,
+        "VALIDATE_ROUTE": 10,
+        "SOURCE_ROUTE_FAILURE": 11,
+        "MANY_TO_ONE_ROUTE_FAILURE": 12,
+        "ADDRESS_CONFLICT": 13,
+        "VERIFY_ADDRESSES": 14,
+        "PANID_UPDATE": 15,
+        "NWK_ADDRESS_UPDATE": 16,
+        "BAD_FRAME_COUNT": 17,
+        "BAD_KEY_SEQ_NUMBER": 18,
+        "UNKNOWN_COMMAND": 19
     }
 }
