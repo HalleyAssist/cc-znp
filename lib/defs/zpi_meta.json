@@ -105,12 +105,13 @@
 			"cmdId": 19,
 			"params": {
 				"req": [
+					["dstaddr", 1],
 					["nwkaddr", 1],
 					["type", 0],
 					["limit", 0]
 				],
 				"rsp": [
-					["nwkaddr", 1],
+					["dstaddr", 1],
 					["type", 0],
 					["count", 0]
 				]
@@ -174,13 +175,17 @@
 			"cmdId": 140,
 			"params": {
 				"req": [
-					["nwkaddr", 1],
+					["dstaddr", 1],
 					["rtgState", 0],
 					["retries", 0],
 					["apsRetries", 0],
 					["lastCnfStatus", 0],
 					["macSrcAddr", 1],
-					["nsduHandle", 0]
+					["nsduHandle", 0],
+					["retryTime", 1],
+					["afHandle", 0],
+					["nwkaddr", 1],
+					["srcep", 0]					
 				]
 			}
 		}
