@@ -2445,9 +2445,10 @@
 			"cmdId": 81,
 			"params": {
 				"req": [
-					["parentaddr", 1],
 					["nwkaddr", 1],
-					["extaddr", 3]
+					["extaddr", 3],
+					["parentaddr", 1],
+					["rejoin", 0]
 				],
 				"rsp": [
 					["status", 0]
