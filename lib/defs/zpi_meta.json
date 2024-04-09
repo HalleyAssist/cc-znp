@@ -722,6 +722,16 @@
 				]
 			}
 		},
+		"wdogClear": {
+			"type": 1,
+			"cmdId": 36,
+			"params": {
+				"req": [],
+				"rsp": [
+					["status", 0]
+				]
+			}
+		},
 		"resetInd": {
 			"type": 2,
 			"cmdId": 128,
@@ -745,7 +755,8 @@
 					["nvStatus", 0],
 					["curStatus", 0],
 					["lastValue", 0],
-					["temp", 24]
+					["temp", 24],
+					["restartCounter", 2]
 				]
 			}
 		},
