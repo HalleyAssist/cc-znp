@@ -756,7 +756,8 @@
 					["curStatus", 0],
 					["lastValue", 0],
 					["temp", 24],
-					["restartCounter", 2]
+					["restartCounter", 2],
+					["modulePower", 2]
 				]
 			}
 		},
