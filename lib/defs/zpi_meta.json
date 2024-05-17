@@ -2505,7 +2505,8 @@
 				"req": [
 					["nwkaddr", 1],
 					["extaddr", 3],
-					["parentaddr", 1]
+					["parentaddr", 1],
+					["lqi", 0]
 				]
 			}
 		},
