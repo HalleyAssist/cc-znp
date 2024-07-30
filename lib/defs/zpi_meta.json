@@ -117,6 +117,19 @@
 				]
 			}
 		},
+		"queuedDelete": {
+			"type": 1,
+			"cmdId": 25,
+			"params": {
+				"req": [
+					["nwkaddr", 1],
+					["trans", 0]
+				],
+				"rsp": [
+					["count", 0]
+				]
+			}
+		},
 		"queueBufRemove": {
 			"type": 1,
 			"cmdId": 21,
