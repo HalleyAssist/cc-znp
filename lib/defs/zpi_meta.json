@@ -319,6 +319,30 @@
 				]
 			}
 		},
+		"osalNvDump": {
+			"type": 1,
+			"cmdId": 55,
+			"params": {
+				"req": [
+				],
+				"rsp": [
+					["status", 0]
+				]
+			}
+		},
+		"osalNvDumpInd": {
+			"type": 2,
+			"cmdId": 132,
+			"params": {
+				"req": [
+					["system", 0],
+					["sub", 1],
+					["item", 1],
+					["len", 7],
+					["value", 11]
+				]
+			}
+		},
 		"osalNvWrite": {
 			"type": 1,
 			"cmdId": 9,
