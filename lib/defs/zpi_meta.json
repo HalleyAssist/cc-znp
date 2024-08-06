@@ -358,6 +358,23 @@
 				]
 			}
 		},
+		"osalSysNvWrite": {
+			"type": 52,
+			"cmdId": 9,
+			"params": {
+				"req": [
+					["system", 0],
+					["item", 1],
+					["sub", 1],
+					["offset", 0],
+					["len", 7],
+					["value", 11]
+				],
+				"rsp": [
+					["status", 0]
+				]
+			}
+		},
 		"osalStartTimer": {
 			"type": 1,
 			"cmdId": 10,
