@@ -359,8 +359,8 @@
 			}
 		},
 		"osalSysNvWrite": {
-			"type": 52,
-			"cmdId": 9,
+			"type": 1,
+			"cmdId": 52,
 			"params": {
 				"req": [
 					["system", 0],
