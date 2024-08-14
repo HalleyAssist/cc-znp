@@ -661,23 +661,6 @@
 				]
 			}
 		},
-		"nvWrite": {
-			"type": 1,
-			"cmdId": 52,
-			"params": {
-				"req": [
-					["sysid", 0],
-					["itemid", 1],
-					["subid", 1],
-					["offset", 1],
-					["len", 0],
-					["value", 13]
-				],
-				"rsp": [
-					["status", 0]
-				]
-			}
-		},
 		"nvUpdate": {
 			"type": 1,
 			"cmdId": 53,
