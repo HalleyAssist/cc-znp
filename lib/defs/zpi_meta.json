@@ -358,7 +358,7 @@
 				]
 			}
 		},
-		"osalSysNvWrite": {
+		"nvWrite": {
 			"type": 1,
 			"cmdId": 52,
 			"params": {
