@@ -168,6 +168,7 @@ function framer() {
             case 'uint16':
             case 'uint32':
             case 'uint32be':
+            case 'int16':
                 dataBuf = dataBuf[type](val);
                 break;
             case 'buffer':
