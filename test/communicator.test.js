@@ -140,29 +140,38 @@ describe('Communicator Tests', function () {
             argObj1.frame()
             argObj2.frame()
             
-            // Create a deferred for manual control
-            const errorDeferred = Q.defer()
+            let rejectFn
+            const errorPromise = new Promise((resolve, reject) => {
+                rejectFn = reject
+            })
+            
+            // Prevent unhandled rejection
+            errorPromise.catch(() => {})
             
             // Reset stub - manually control the promise
             unpi.send.reset()
-            unpi.send.onFirstCall().returns(errorDeferred.promise)
+            unpi.send.onFirstCall().returns(errorPromise)
             unpi.send.onSecondCall().resolves()
             
-            // Start first request and immediately set up error handling
+            // Start first request  
             const send1Promise = communicator.send(argObj1)
-            const send1Error = send1Promise.catch(err => err)
+            send1Promise.catch(() => {}) // Prevent unhandled rejection
             
             // Wait for send to process
             await new Promise(resolve => setImmediate(resolve))
             
-            // Now reject the deferred to simulate error
-            errorDeferred.reject(new Error('Network error'))
+            // Now reject to simulate error
+            rejectFn(new Error('Network error'))
             
-            // Wait for the error to be handled
-            await send1Error
+            // Wait for the error to propagate
+            try {
+                await send1Promise
+            } catch (err) {
+                // Expected error
+            }
             
             // Wait for cleanup to happen
-            await new Promise(resolve => setTimeout(resolve, 50))
+            await new Promise(resolve => setTimeout(resolve, 100))
             
             // Verify pending was cleaned up after error
             expect(communicator._pending.length).to.equal(0)

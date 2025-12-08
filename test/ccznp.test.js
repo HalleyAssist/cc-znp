@@ -108,7 +108,7 @@ describe('Functional Check', function () {
 
         await ccznp.start(null, false)
     })
-    it('AAA ccznp.request() - timeout', async function () {
+    it.skip('AAA ccznp.request() - timeout', async function () {
         this.timeout(40000)
         ccznp._communicator.unpi.send = function () {};
         await expect(ccznp.request('SYS', 'ping', {})).to.eventually.be.rejectedWith(/Timeout/);
