@@ -108,11 +108,19 @@ describe('Functional Check', function () {
 
         await ccznp.start(null, false)
     })
-    it.skip('AAA ccznp.request() - timeout', async function () {
+    it('AAA ccznp.request() - timeout', async function () {
         this.timeout(40000)
-        ccznp._communicator.unpi.send = function () {};
-        await expect(ccznp.request('SYS', 'ping', {})).to.eventually.be.rejectedWith(/Timeout/);
-        expect(ccznp.spinLock == true).to.be.false
+        // Clear any pending requests from previous tests
+        ccznp._communicator.clearAll()
+        
+        const originalSend = ccznp._communicator.unpi.send
+        try {
+            ccznp._communicator.unpi.send = async function () {};
+            await expect(ccznp.request('SYS', 'ping', {})).to.eventually.be.rejectedWith(/Timeout/);
+            expect(ccznp.spinLock == true).to.be.false
+        } finally {
+            ccznp._communicator.unpi.send = originalSend
+        }
     });
 
     it('ccznp.request()', async function () {

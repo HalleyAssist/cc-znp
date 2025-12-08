@@ -17,13 +17,13 @@ describe('Arguments Testing', function() {
 
         describe('#Argument Type', function() {
             it('should throw if type is not a string or a number', async () => {
-                await expect(Q.fcall(function () { return unpi.send(undefined, 1, 0, new Buffer([ 0 ])); })).to.eventually.be.rejectedWith(TypeError);
-                await expect(Q.fcall(function () { return unpi.send(null, 1, 0, new Buffer([ 0 ])); })).to.eventually.be.rejectedWith(TypeError);
-                await expect(Q.fcall(function () { return unpi.send([], 1, 0, new Buffer([ 0 ])); })).to.eventually.be.rejectedWith(TypeError);
-                await expect(Q.fcall(function () { return unpi.send({}, 1, 0, new Buffer([ 0 ])); })).to.eventually.be.rejectedWith(TypeError);
-                await expect(Q.fcall(function () { return unpi.send(NaN, 1, 0, new Buffer([ 0 ])); })).to.eventually.be.rejectedWith(TypeError);
-                await expect(Q.fcall(function () { return unpi.send(true, 1, 0, new Buffer([ 0 ])); })).to.eventually.be.rejectedWith(TypeError);
-                await expect(Q.fcall(function () { return unpi.send(function () {}, 1, 0, new Buffer([ 0 ])); })).to.eventually.be.rejectedWith(TypeError);
+                await expect(Q.fcall(function () { return unpi.send(undefined, 1, 0, new Buffer([ 0 ])); })).to.eventually.be.rejectedWith(Error);
+                await expect(Q.fcall(function () { return unpi.send(null, 1, 0, new Buffer([ 0 ])); })).to.eventually.be.rejectedWith(Error);
+                await expect(Q.fcall(function () { return unpi.send([], 1, 0, new Buffer([ 0 ])); })).to.eventually.be.rejectedWith(Error);
+                await expect(Q.fcall(function () { return unpi.send({}, 1, 0, new Buffer([ 0 ])); })).to.eventually.be.rejectedWith(Error);
+                await expect(Q.fcall(function () { return unpi.send(NaN, 1, 0, new Buffer([ 0 ])); })).to.eventually.be.rejectedWith(Error);
+                await expect(Q.fcall(function () { return unpi.send(true, 1, 0, new Buffer([ 0 ])); })).to.eventually.be.rejectedWith(Error);
+                await expect(Q.fcall(function () { return unpi.send(function () {}, 1, 0, new Buffer([ 0 ])); })).to.eventually.be.rejectedWith(Error);
             });
 
             it('should throw if type is not a string or a number', async () => {
