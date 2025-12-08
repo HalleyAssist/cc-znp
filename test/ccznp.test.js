@@ -25,7 +25,7 @@ describe('Signature Check', function () {
             await Q.delay(10)
         }
         ccznp = new CCZnp(port);
-        await ccznp.start(false)
+        await ccznp.start(null, false)
     });
 
     it('ccznp.request(subsys, cmdId, valObj, callback)', async function () {
@@ -80,18 +80,18 @@ describe('Signature Check', function () {
 });
 
 describe('Functional Check', function () {
-    let mockEndpoint
+    let mockEndpoint, port
     before(async function () {
         mockEndpoint = MockBinding.createPort('/dev/ROBOT', { echo: true, record: true })
 
-        const port = new SerialPort('/dev/ROBOT')
+        port = new SerialPort('/dev/ROBOT')
         //await Q.ninvoke(port, 'open')
         await Q.delay(10)
         while(port.opening){
             await Q.delay(10)
         }
         ccznp = new CCZnp(port);
-        await ccznp.start(false)
+        await ccznp.start(null, false)
     });
     this.timeout(2000);
     it('basic operation', async function(){
@@ -106,7 +106,7 @@ describe('Functional Check', function () {
         await Q.delay(10)
         expect(found).to.be.false
 
-        await ccznp.start(false)
+        await ccznp.start(null, false)
     })
     it('AAA ccznp.request() - timeout', async function () {
         this.timeout(40000)
