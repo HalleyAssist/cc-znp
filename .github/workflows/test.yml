@@ -1,9 +1,11 @@
-name: Eslint
+name: Test
 on:
   push:
+  pull_request:
 
 jobs:
-  test:
+  eslint:
+    name: ESLint
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -12,3 +14,17 @@ jobs:
         sudo npm install -g eslint@8
     - name: check eslint
       run: eslint lib --ext .js,.jsx,.ts,.tsx
+  
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'
+    - name: Install dependencies
+      run: npm install
+    - name: Run tests
+      run: npm test
