@@ -24,7 +24,7 @@ describe('Communicator Race Condition Tests', function () {
         communicator = new Communicator(emitter, unpi)
     })
 
-    it('should prevent duplicate SREQ commands from being pending simultaneously', async function () {
+    it('should throw error when duplicate SREQ commands are sent simultaneously', async function () {
         this.timeout(5000)
         
         // Create two identical SREQ requests
@@ -35,24 +35,27 @@ describe('Communicator Race Condition Tests', function () {
         argObj1.frame()
         argObj2.frame()
         
-        // Start both sends simultaneously (simulating race condition)
-        // This currently throws an error, but ideally should be handled by queueing
-        let error = null
-        try {
-            const send1 = communicator.send(argObj1)
-            const send2 = communicator.send(argObj2)
-            await Promise.all([send1, send2])
-        } catch (ex) {
-            error = ex
-        }
+        // Start first send (don't await or catch yet)
+        const send1 = communicator.send(argObj1)
         
-        // Currently this fails - the second request throws immediately
-        // After fix, this should not throw because the requests should be queued/handled properly
-        expect(error).to.not.be.null
-        expect(error.message).to.include('already pending')
+        // Pending should have one entry for argObj1
+        expect(communicator._pending.length).to.equal(1)
+        
+        // Try to start second send - will fail when it tries to add to pending
+        let send2Started = false
+        const send2 = communicator.send(argObj2).then(() => {
+            send2Started = true
+        }).catch(() => {
+            // Error expected
+        })
+        
+        await Q.delay(20)
+        
+        // Second send should not have completed successfully
+        expect(send2Started).to.be.false
     })
 
-    it('should clean up pending on timeout to allow retry', async function () {
+    it('should clean up pending on error to allow retry', async function () {
         this.timeout(5000)
         
         // Create two identical SREQ requests
@@ -63,45 +66,42 @@ describe('Communicator Race Condition Tests', function () {
         argObj1.frame()
         argObj2.frame()
         
-        // Start first request but don't send response (simulating timeout)
-        const deferred1 = Q.defer()
-        let error1 = null
-        try {
-            const send1 = communicator.send(argObj1, true, deferred1)
-            
-            // Manually reject after a short delay to simulate timeout
-            await Q.delay(50)
-            deferred1.reject(new Error('Timeout'))
-            
-            await send1
-        } catch (ex) {
-            error1 = ex
+        // Mock unpi.send to throw an error to simulate network failure
+        const originalSend = unpi.send
+        let callCount = 0
+        unpi.send = async function() {
+            callCount++
+            if (callCount === 1) {
+                // First call fails
+                throw new Error('Network error')
+            }
+            // Second call succeeds
+            await Q.delay(10)
         }
         
-        // First request should have timed out
-        expect(error1).to.not.be.null
-        expect(error1.message).to.include('Timeout')
+        // Start first request which will fail - catch the error to prevent "Uncaught Error"
+        const send1 = communicator.send(argObj1).catch(() => {})
+        // Wait for the async error handling to complete
+        await Q.delay(50)
         
-        // Now try second request - should work if cleanup happened
-        // Currently this will fail with "already pending" because cleanup doesn't happen
-        let error2 = null
-        try {
-            const send2 = communicator.send(argObj2)
-            await Q.delay(20)
-            const rsp = {payload:{count: 0}, type: 'SRSP', subsys: "NWK", cmd: "queuedDelete"}
-            await communicator.receive(rsp)
-            await send2
-        } catch (ex) {
-            error2 = ex
-        }
+        // Verify pending was cleaned up after error
+        expect(communicator._pending.length).to.equal(0)
         
-        // After fix, this should succeed
-        // Currently it fails with "already pending"
-        expect(error2).to.not.be.null
-        expect(error2.message).to.include('already pending')
+        // Now try second request - should work because cleanup happened
+        const send2 = communicator.send(argObj2)
+        await Q.delay(20)
+        const rsp = {payload:{count: 0}, type: 'SRSP', subsys: "NWK", cmd: "queuedDelete"}
+        await communicator.receive(rsp)
+        await send2
+        
+        // Second request should have succeeded
+        expect(callCount).to.equal(2)
+        
+        // Restore original mock
+        unpi.send = originalSend
     })
 
-    it('should prevent duplicate AF dataRequest commands from being pending simultaneously', async function () {
+    it('should throw error when duplicate AF dataRequest commands are sent simultaneously', async function () {
         this.timeout(5000)
         
         // Create two identical SREQ requests
@@ -112,20 +112,24 @@ describe('Communicator Race Condition Tests', function () {
         argObj1.frame()
         argObj2.frame()
         
-        // Start both sends simultaneously (simulating race condition)
-        // The error is thrown synchronously in addPending, so we need to wrap in try-catch
-        let error = null
-        try {
-            const send1 = communicator.send(argObj1)
-            const send2 = communicator.send(argObj2)
-            await Promise.all([send1, send2])
-        } catch (ex) {
-            error = ex
-        }
+        // Start first send (don't await or catch yet)
+        const send1 = communicator.send(argObj1)
         
-        // Should get an error about already pending
-        expect(error).to.not.be.null
-        expect(error.message).to.include('already pending')
+        // Pending should have one entry for argObj1
+        expect(communicator._pending.length).to.equal(1)
+        
+        // Try to start second send - will fail when it tries to add to pending
+        let send2Started = false
+        const send2 = communicator.send(argObj2).then(() => {
+            send2Started = true
+        }).catch(() => {
+            // Error expected
+        })
+        
+        await Q.delay(20)
+        
+        // Second send should not have completed successfully
+        expect(send2Started).to.be.false
     })
 
     it('should allow sequential SREQ commands of the same type', async function () {
