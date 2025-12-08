@@ -116,7 +116,7 @@ describe('Functional Check', function () {
         const originalSend = ccznp._communicator.unpi.send
         try {
             ccznp._communicator.unpi.send = async function () {};
-            await expect(ccznp.request('SYS', 'ping', {})).to.eventually.be.rejectedWith(/Timeout/);
+            await expect(ccznp.request('SYS', 'ping', {})).to.eventually.be.rejectedWith(/Timed out/);
             expect(ccznp.spinLock == true).to.be.false
         } finally {
             ccznp._communicator.unpi.send = originalSend
