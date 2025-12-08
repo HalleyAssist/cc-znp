@@ -1,5 +1,6 @@
 const expect = require('chai').expect,
     assert = require('chai').assert,
+    sinon = require('sinon'),
     Communicator = require('../lib/communicator'),
     ZpiObject = require('../lib/zpiObject'),
     Q = require('@halleyassist/q-lite'),
@@ -11,17 +12,27 @@ const chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 
 describe('Communicator Tests', function () {
-    let communicator, unpi, emitter
+    let communicator, unpi, emitter, clock, sendDeferred
     
     beforeEach(function () {
+        clock = sinon.useFakeTimers()
         emitter = new EventEmitter()
+        
+        // Create a controllable deferred for unpi.send
+        sendDeferred = Q.defer()
+        
         unpi = {
-            send: async function() {
-                // Simulate async send operation
-                await Q.delay(10)
-            }
+            send: sinon.stub().callsFake(async function() {
+                // Return immediately - the actual async behavior is handled
+                // by the deferred.promise waiting for response
+                return Promise.resolve()
+            })
         }
         communicator = new Communicator(emitter, unpi)
+    })
+    
+    afterEach(function () {
+        clock.restore()
     })
 
     describe('Basic Operations', function() {
@@ -29,11 +40,18 @@ describe('Communicator Tests', function () {
             const argObj = new ZpiObject('SYS', 'ping', {})
             argObj.frame()
             
+            // Don't await - we just want to trigger the send
             communicator.send(argObj)
-            await Q.delay(5) // Give async function time to call addPending
+            
+            // Flush microtasks to allow addPending to be called
+            await Promise.resolve()
             
             expect(communicator._pending.length).to.equal(1)
             expect(communicator._pending[0].argObj).to.equal(argObj)
+            
+            // Clean up - resolve the pending to avoid timeout
+            const rsp = {payload: {}, type: 'SRSP', subsys: 'SYS', cmd: 'ping'}
+            await communicator.receive(rsp)
         })
 
         it('should remove pending entry when response is received', async function () {
@@ -41,13 +59,18 @@ describe('Communicator Tests', function () {
             argObj.frame()
             
             const sendPromise = communicator.send(argObj)
-            await Q.delay(15) // Wait for send to complete
+            
+            // Wait for async operations to settle
+            await clock.tickAsync(0)
             
             // Send response
             const rsp = {payload: {}, type: 'SRSP', subsys: 'SYS', cmd: 'ping'}
             await communicator.receive(rsp)
             
             expect(communicator._pending.length).to.equal(0)
+            
+            // Await the send to complete
+            await sendPromise
         })
 
         it('should allow sequential SREQ commands of the same type', async function () {
@@ -57,18 +80,21 @@ describe('Communicator Tests', function () {
             argObj1.frame()
             argObj2.frame()
             
-            // Send first request
-            const send1 = communicator.send(argObj1)
-            await Q.delay(15)
             const rsp = {payload:{count: 0}, type: 'SRSP', subsys: "NWK", cmd: "queuedDelete"}
+            
+            // Send first request
+            const send1Promise = communicator.send(argObj1)
+            await clock.tickAsync(0)
+            
             await communicator.receive(rsp)
-            await send1
+            await send1Promise
             
             // Now send second request - should work fine
-            const send2 = communicator.send(argObj2)
-            await Q.delay(15)
+            const send2Promise = communicator.send(argObj2)
+            await clock.tickAsync(0)
+            
             await communicator.receive(rsp)
-            await send2
+            await send2Promise
             
             // Both should complete without error
             expect(communicator._pending.length).to.equal(0)
@@ -77,8 +103,6 @@ describe('Communicator Tests', function () {
 
     describe('Race Condition Prevention', function() {
         it('should prevent duplicate SREQ commands from being pending simultaneously', async function () {
-            this.timeout(1000)
-            
             const argObj1 = new ZpiObject('NWK', 'queuedDelete', {nwkaddr: 0, trans: 0})
             const argObj2 = new ZpiObject('NWK', 'queuedDelete', {nwkaddr: 0, trans: 0})
             
@@ -87,7 +111,7 @@ describe('Communicator Tests', function () {
             
             // Start first send
             communicator.send(argObj1)
-            await Q.delay(5)
+            await Promise.resolve()
             
             // Pending should have one entry for argObj1
             expect(communicator._pending.length).to.equal(1)
@@ -107,7 +131,8 @@ describe('Communicator Tests', function () {
         })
 
         it('should clean up pending on error to allow retry', async function () {
-            this.timeout(1000)
+            // Restore real timers for this test
+            clock.restore()
             
             const argObj1 = new ZpiObject('NWK', 'queuedDelete', {nwkaddr: 0, trans: 0})
             const argObj2 = new ZpiObject('NWK', 'queuedDelete', {nwkaddr: 0, trans: 0})
@@ -115,41 +140,45 @@ describe('Communicator Tests', function () {
             argObj1.frame()
             argObj2.frame()
             
-            // Mock unpi.send to throw an error
-            const originalSend = unpi.send
-            let callCount = 0
-            unpi.send = async function() {
-                callCount++
-                if (callCount === 1) {
-                    throw new Error('Network error')
-                }
-                await Q.delay(10)
-            }
+            // Create a deferred for manual control
+            const errorDeferred = Q.defer()
             
-            // Start first request which will fail
-            try {
-                await communicator.send(argObj1)
-            } catch (ex) {
-                // Expected to fail
-            }
+            // Reset stub - manually control the promise
+            unpi.send.reset()
+            unpi.send.onFirstCall().returns(errorDeferred.promise)
+            unpi.send.onSecondCall().resolves()
             
-            await Q.delay(10) // Wait for cleanup
+            // Start first request
+            const send1Promise = communicator.send(argObj1)
+            // Immediately attach catch to prevent unhandled rejection
+            send1Promise.catch(() => {})
+            
+            // Wait for send to process
+            await new Promise(resolve => setImmediate(resolve))
+            
+            // Now reject the deferred to simulate error
+            errorDeferred.reject(new Error('Network error'))
+            
+            // Wait for cleanup to happen
+            await new Promise(resolve => setTimeout(resolve, 50))
             
             // Verify pending was cleaned up after error
             expect(communicator._pending.length).to.equal(0)
+            expect(unpi.send.callCount).to.equal(1)
             
             // Now try second request - should work because cleanup happened
-            const send2 = communicator.send(argObj2)
-            await Q.delay(20)
+            const send2Promise = communicator.send(argObj2)
+            await new Promise(resolve => setImmediate(resolve))
+            
             const rsp = {payload:{count: 0}, type: 'SRSP', subsys: "NWK", cmd: "queuedDelete"}
             await communicator.receive(rsp)
-            await send2
+            await send2Promise
             
             // Second request should have succeeded
-            expect(callCount).to.equal(2)
+            expect(unpi.send.callCount).to.equal(2)
             
-            // Restore
-            unpi.send = originalSend
+            // Restore fake timers
+            clock = sinon.useFakeTimers()
         })
     })
 
@@ -176,7 +205,7 @@ describe('Communicator Tests', function () {
             } catch (ex) {
                 // InvalidChecksum error
                 expect(ex).to.exist
-                expect(ex.payload).to.exist
+                expect(ex.received).to.exist
             }
         })
 
@@ -262,7 +291,7 @@ describe('Communicator Tests', function () {
             argObj1.frame()
             
             communicator.send(argObj1)
-            await Q.delay(5)
+            await Promise.resolve()
             
             expect(communicator._pending.length).to.equal(1)
             
