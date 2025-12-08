@@ -46,6 +46,7 @@
     "@serialport/stream": "^8.x",
     "chai": "^4.2.0",
     "chance": "^1.0.4",
-    "mocha": "^2.5.3"
+    "mocha": "^2.5.3",
+    "sinon": "^21.0.0"
   }
 }
