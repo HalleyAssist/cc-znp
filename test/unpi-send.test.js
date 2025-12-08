@@ -105,8 +105,8 @@ describe('Arguments Testing', function() {
 
 describe('Functional Testing', function() {
     var unpi = new Unpi();
-    var sapiStartReqBuf = new Buffer([ 0xfe, 0x00, 0x26, 0x00, 0x26 ]),
-        sapiStartRspBuf = new Buffer([ 0xfe, 0x00, 0x66, 0x00, 0x66 ]);
+    var sapiStartReqBuf = new Buffer([ 0xfe, 0xed, 0x00, 0x26, 0x00, 0x26 ]),
+        sapiStartRspBuf = new Buffer([ 0xfe, 0xed, 0x00, 0x66, 0x00, 0x66 ]);
 
     describe('#.send', function() {
         describe('#.compiled buffer', function() {
@@ -115,7 +115,7 @@ describe('Functional Testing', function() {
             });
 
             it('should equal to a buffer as expected sapiStartReqBuf + payload', async () => {
-                expect(await unpi.send('SREQ', 6, 0, new Buffer([ 0, 1, 2 ]))).to.deep.equal(new Buffer([ 0xfe, 0x03, 0x26, 0x00, 0x00, 0x01, 0x02, 0x26 ]));
+                expect(await unpi.send('SREQ', 6, 0, new Buffer([ 0, 1, 2 ]))).to.deep.equal(new Buffer([ 0xfe, 0xed, 0x03, 0x26, 0x00, 0x00, 0x01, 0x02, 0x26 ]));
             });
 
             it('should equal to a buffer as expected sapiStartRspBuf', async () => {
@@ -131,7 +131,7 @@ describe('Functional Testing', function() {
                     expect(data).to.deep.equal({
                       cmd: 0, csum: 38, fcs: 38, len: 0,
                       payload: new Buffer(0),
-                      sof: 254, subsys: 6, type: 1
+                      subsys: 6, type: 1
                     });
                     done();
                 });
@@ -143,7 +143,7 @@ describe('Functional Testing', function() {
                     expect(data).to.deep.equal({
                       cmd: 0, csum: 102, fcs: 102, len: 0,
                       payload: new Buffer(0),
-                      sof: 254, subsys: 6, type: 3
+                      subsys: 6, type: 3
                     });
                     done();
                 });
@@ -155,11 +155,11 @@ describe('Functional Testing', function() {
                     expect(data).to.deep.equal({
                       cmd: 0, csum: 38, fcs: 38, len: 3,
                       payload: new Buffer([ 0x00, 0x01, 0x02 ]),
-                      sof: 254, subsys: 6, type: 1
+                      subsys: 6, type: 1
                     });
                     done();
                 });
-                unpi.receive(new Buffer([ 0xfe, 0x03, 0x26, 0x00, 0x00, 0x01, 0x02, 0x26 ]));
+                unpi.receive(new Buffer([ 0xfe, 0xed, 0x03, 0x26, 0x00, 0x00, 0x01, 0x02, 0x26 ]));
             });
 
             it('should equal to a parsed result as expected sapiStartReqBuf + payload', function (done) {
@@ -167,11 +167,11 @@ describe('Functional Testing', function() {
                     expect(data).to.deep.equal({
                       cmd: 0, csum: 102, fcs: 102, len: 3,
                       payload: new Buffer([ 0x00, 0x01, 0x02 ]),
-                      sof: 254, subsys: 6, type: 3
+                      subsys: 6, type: 3
                     });
                     done();
                 });
-                unpi.receive(new Buffer([ 0xfe, 0x03, 0x66, 0x00, 0x00, 0x01, 0x02, 0x66 ]));
+                unpi.receive(new Buffer([ 0xfe, 0xed, 0x03, 0x66, 0x00, 0x00, 0x01, 0x02, 0x66 ]));
             });
         });
     });

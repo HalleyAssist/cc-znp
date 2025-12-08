@@ -97,12 +97,12 @@ describe('Functional Check', function () {
     it('basic operation', async function(){
         let found = false
         ccznp.on('AREQ', d=>found = true)
-        await port.binding.emitData(new Buffer([ 0xfe, 0x00, 0x46, 0x00, 0x46 ]))
+        await port.binding.emitData(new Buffer([ 0xfe, 0xed, 0x00, 0x46, 0x00, 0x46 ]))
         await Q.delay(10)
         expect(found).to.be.true
         found = false
         await ccznp.close()
-        await port.binding.emitData(new Buffer([ 0xfe, 0x00, 0x46, 0x00, 0x46 ]))
+        await port.binding.emitData(new Buffer([ 0xfe, 0xed, 0x00, 0x46, 0x00, 0x46 ]))
         await Q.delay(10)
         expect(found).to.be.false
 

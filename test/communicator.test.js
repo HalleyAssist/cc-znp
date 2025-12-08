@@ -148,16 +148,18 @@ describe('Communicator Tests', function () {
             unpi.send.onFirstCall().returns(errorDeferred.promise)
             unpi.send.onSecondCall().resolves()
             
-            // Start first request
+            // Start first request and immediately set up error handling
             const send1Promise = communicator.send(argObj1)
-            // Immediately attach catch to prevent unhandled rejection
-            send1Promise.catch(() => {})
+            const send1Error = send1Promise.catch(err => err)
             
             // Wait for send to process
             await new Promise(resolve => setImmediate(resolve))
             
             // Now reject the deferred to simulate error
             errorDeferred.reject(new Error('Network error'))
+            
+            // Wait for the error to be handled
+            await send1Error
             
             // Wait for cleanup to happen
             await new Promise(resolve => setTimeout(resolve, 50))
