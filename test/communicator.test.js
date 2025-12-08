@@ -1,12 +1,12 @@
-var expect = require('chai').expect,
+const expect = require('chai').expect,
     assert = require('chai').assert,
     Communicator = require('../lib/communicator'),
     ZpiObject = require('../lib/zpiObject'),
     Q = require('@halleyassist/q-lite'),
     EventEmitter = require('events').EventEmitter
 
-var chai = require("chai");
-var chaiAsPromised = require("chai-as-promised");
+const chai = require("chai");
+const chaiAsPromised = require("chai-as-promised");
 
 chai.use(chaiAsPromised);
 
