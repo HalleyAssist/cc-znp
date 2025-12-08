@@ -76,6 +76,8 @@ function randomArgForParse(type, name) {
             return chance.integer({min: 0, max: 255});
         case 'uint16':
             return chance.integer({min: 0, max: 65535});
+        case 'int16':
+            return chance.integer({min: -32768, max: 32767});
         case 'uint32':
         case 'uint32be':
             return chance.integer({min: 0, max: 4294967295});

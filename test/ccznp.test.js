@@ -25,7 +25,7 @@ describe('Signature Check', function () {
             await Q.delay(10)
         }
         ccznp = new CCZnp(port);
-        await ccznp.start(false)
+        await ccznp.start(null, false)
     });
 
     it('ccznp.request(subsys, cmdId, valObj, callback)', async function () {
@@ -80,39 +80,47 @@ describe('Signature Check', function () {
 });
 
 describe('Functional Check', function () {
-    let mockEndpoint
+    let mockEndpoint, port
     before(async function () {
         mockEndpoint = MockBinding.createPort('/dev/ROBOT', { echo: true, record: true })
 
-        const port = new SerialPort('/dev/ROBOT')
+        port = new SerialPort('/dev/ROBOT')
         //await Q.ninvoke(port, 'open')
         await Q.delay(10)
         while(port.opening){
             await Q.delay(10)
         }
         ccznp = new CCZnp(port);
-        await ccznp.start(false)
+        await ccznp.start(null, false)
     });
     this.timeout(2000);
     it('basic operation', async function(){
         let found = false
         ccznp.on('AREQ', d=>found = true)
-        await port.binding.emitData(new Buffer([ 0xfe, 0x00, 0x46, 0x00, 0x46 ]))
+        await port.binding.emitData(new Buffer([ 0xfe, 0xed, 0x00, 0x46, 0x00, 0x46 ]))
         await Q.delay(10)
         expect(found).to.be.true
         found = false
         await ccznp.close()
-        await port.binding.emitData(new Buffer([ 0xfe, 0x00, 0x46, 0x00, 0x46 ]))
+        await port.binding.emitData(new Buffer([ 0xfe, 0xed, 0x00, 0x46, 0x00, 0x46 ]))
         await Q.delay(10)
         expect(found).to.be.false
 
-        await ccznp.start(false)
+        await ccznp.start(null, false)
     })
     it('AAA ccznp.request() - timeout', async function () {
         this.timeout(40000)
-        ccznp._communicator.unpi.send = function () {};
-        await expect(ccznp.request('SYS', 'ping', {})).to.eventually.be.rejectedWith(/Timeout/);
-        expect(ccznp.spinLock == true).to.be.false
+        // Clear any pending requests from previous tests
+        ccznp._communicator.clearAll()
+        
+        const originalSend = ccznp._communicator.unpi.send
+        try {
+            ccznp._communicator.unpi.send = async function () {};
+            await expect(ccznp.request('SYS', 'ping', {})).to.eventually.be.rejectedWith(/Timed out/);
+            expect(ccznp.spinLock == true).to.be.false
+        } finally {
+            ccznp._communicator.unpi.send = originalSend
+        }
     });
 
     it('ccznp.request()', async function () {

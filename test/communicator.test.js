@@ -39,9 +39,12 @@ describe('Communicator Tests', function () {
         it('should add pending entry when sending SREQ', async function () {
             const argObj = new ZpiObject('SYS', 'ping', {})
             argObj.frame()
+
+            const deferred = Q.defer()
+            deferred.startTimeout = () => {} // Disable timeout for test
             
             // Don't await - we just want to trigger the send
-            communicator.send(argObj)
+            communicator.send(argObj, deferred)
             
             // Flush microtasks to allow addPending to be called
             await Promise.resolve()
@@ -57,8 +60,11 @@ describe('Communicator Tests', function () {
         it('should remove pending entry when response is received', async function () {
             const argObj = new ZpiObject('SYS', 'ping', {})
             argObj.frame()
+
+            const deferred = Q.defer()
+            deferred.startTimeout = () => {} // Disable timeout for test
             
-            const sendPromise = communicator.send(argObj)
+            const sendPromise = communicator.send(argObj, deferred)
             
             // Wait for async operations to settle
             await clock.tickAsync(0)
@@ -81,16 +87,22 @@ describe('Communicator Tests', function () {
             argObj2.frame()
             
             const rsp = {payload:{count: 0}, type: 'SRSP', subsys: "NWK", cmd: "queuedDelete"}
+
+            let deferred = Q.defer()
+            deferred.startTimeout = () => {} // Disable timeout for test
             
             // Send first request
-            const send1Promise = communicator.send(argObj1)
+            const send1Promise = communicator.send(argObj1, deferred)
             await clock.tickAsync(0)
             
             await communicator.receive(rsp)
             await send1Promise
+
+            deferred = Q.defer()
+            deferred.startTimeout = () => {} // Disable timeout for test
             
             // Now send second request - should work fine
-            const send2Promise = communicator.send(argObj2)
+            const send2Promise = communicator.send(argObj2, deferred)
             await clock.tickAsync(0)
             
             await communicator.receive(rsp)
@@ -108,18 +120,24 @@ describe('Communicator Tests', function () {
             
             argObj1.frame()
             argObj2.frame()
+
+            let deferred = Q.defer()
+            deferred.startTimeout = () => {} // Disable timeout for test
             
             // Start first send
-            communicator.send(argObj1)
+            communicator.send(argObj1, deferred)
             await Promise.resolve()
             
             // Pending should have one entry for argObj1
             expect(communicator._pending.length).to.equal(1)
+
+            deferred = Q.defer()
+            deferred.startTimeout = () => {} // Disable timeout for test
             
             // Try to start second send - should fail
             let errorThrown = false
             try {
-                await communicator.send(argObj2)
+                await communicator.send(argObj2, deferred)
             } catch (ex) {
                 errorThrown = true
                 expect(ex.message).to.include('already pending')
@@ -140,34 +158,51 @@ describe('Communicator Tests', function () {
             argObj1.frame()
             argObj2.frame()
             
-            // Create a deferred for manual control
-            const errorDeferred = Q.defer()
+            let rejectFn
+            const errorPromise = new Promise((resolve, reject) => {
+                rejectFn = reject
+            })
+            
+            // Prevent unhandled rejection
+            errorPromise.catch(() => {})
             
             // Reset stub - manually control the promise
             unpi.send.reset()
-            unpi.send.onFirstCall().returns(errorDeferred.promise)
+            unpi.send.onFirstCall().returns(errorPromise)
             unpi.send.onSecondCall().resolves()
+
+            let deferred = Q.defer()
+            deferred.startTimeout = () => {} // Disable timeout for test
             
-            // Start first request
-            const send1Promise = communicator.send(argObj1)
-            // Immediately attach catch to prevent unhandled rejection
-            send1Promise.catch(() => {})
+            // Start first request  
+            const send1Promise = communicator.send(argObj1, deferred)
+            send1Promise.catch(() => {}) // Prevent unhandled rejection
             
             // Wait for send to process
             await new Promise(resolve => setImmediate(resolve))
             
-            // Now reject the deferred to simulate error
-            errorDeferred.reject(new Error('Network error'))
+            // Now reject to simulate error
+            rejectFn(new Error('Network error'))
+            
+            // Wait for the error to propagate
+            try {
+                await send1Promise
+            } catch (err) {
+                // Expected error
+            }
             
             // Wait for cleanup to happen
-            await new Promise(resolve => setTimeout(resolve, 50))
+            await new Promise(resolve => setTimeout(resolve, 100))
             
             // Verify pending was cleaned up after error
             expect(communicator._pending.length).to.equal(0)
             expect(unpi.send.callCount).to.equal(1)
+
+            deferred = Q.defer()
+            deferred.startTimeout = () => {} // Disable timeout for test
             
             // Now try second request - should work because cleanup happened
-            const send2Promise = communicator.send(argObj2)
+            const send2Promise = communicator.send(argObj2, deferred)
             await new Promise(resolve => setImmediate(resolve))
             
             const rsp = {payload:{count: 0}, type: 'SRSP', subsys: "NWK", cmd: "queuedDelete"}
@@ -289,8 +324,11 @@ describe('Communicator Tests', function () {
             const argObj1 = new ZpiObject('SYS', 'ping', {})
             
             argObj1.frame()
+
+            let deferred = Q.defer()
+            deferred.startTimeout = () => {} // Disable timeout for test
             
-            communicator.send(argObj1)
+            communicator.send(argObj1, deferred)
             await Promise.resolve()
             
             expect(communicator._pending.length).to.equal(1)
